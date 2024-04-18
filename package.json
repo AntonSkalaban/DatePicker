@@ -5,6 +5,7 @@
   "repository": "git@github.com:AntonSkalaban/datePicker.git",
   "license": "MIT",
   "scripts": {
+    "start": "rollup -c --watch",
     "build": "rollup -c --bundleConfigAsCjs",
     "eslint": "eslint src/",
     "eslint:fix": "eslint src/ --fix",
