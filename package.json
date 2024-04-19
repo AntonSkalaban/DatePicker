@@ -4,12 +4,17 @@
   "main": "index.js",
   "repository": "git@github.com:AntonSkalaban/datePicker.git",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/AntonSkalaban"
+  },
   "scripts": {
     "start": "rollup -c --watch",
     "build": "rollup -c --bundleConfigAsCjs",
     "eslint": "eslint src/",
     "eslint:fix": "eslint src/ --fix",
-    "prettier": "prettier src/ --check"
+    "prettier": "prettier src/ --check",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "peerDependencies": {
     "react": "^18.2.0",
@@ -20,11 +25,21 @@
     "@babel/preset-env": "^7.24.4",
     "@babel/preset-react": "^7.24.1",
     "@babel/preset-typescript": "^7.24.1",
+    "@chromatic-com/storybook": "^1.3.3",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@storybook/addon-essentials": "^8.0.8",
+    "@storybook/addon-interactions": "^8.0.8",
+    "@storybook/addon-links": "^8.0.8",
+    "@storybook/addon-onboarding": "^8.0.8",
+    "@storybook/addon-webpack5-compiler-swc": "^1.0.2",
+    "@storybook/blocks": "^8.0.8",
+    "@storybook/react": "^8.0.8",
+    "@storybook/react-webpack5": "^8.0.8",
+    "@storybook/test": "^8.0.8",
     "@types/react": "^18.2.79",
     "@types/styled-components": "^5.1.34",
     "@typescript-eslint/parser": "^7.7.0",
@@ -34,13 +49,20 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^12.1.0",
+    "eslint-plugin-storybook": "^0.8.0",
     "globals": "^15.0.0",
     "prettier": "^3.2.5",
     "rollup": "^4.14.3",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
+    "storybook": "^8.0.8",
     "styled-components": "^6.1.8",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.7.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }

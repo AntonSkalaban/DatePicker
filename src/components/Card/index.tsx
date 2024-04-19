@@ -1,5 +1,5 @@
+import React from "react";
 import { CardContainer, CardTitle } from "./styled";
-
 interface CardProps {
   /** Заголовок карточки */
   title: string;
