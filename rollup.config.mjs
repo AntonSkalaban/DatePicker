@@ -1,3 +1,4 @@
+import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
@@ -16,6 +17,18 @@ export default {
     },
   },
 
-  plugins: [peerDepsExternal(), resolve(), commonjs(), typescript(), terser()],
+  plugins: [
+    peerDepsExternal(),
+    resolve(),
+    commonjs(),
+    typescript(),
+    terser(),
+    alias({
+      entries: [
+        { find: "utils", replacement: "./src/utils" },
+        { find: "components", replacement: "./src/components" },
+      ],
+    }),
+  ],
   external: ["react", "react-dom", "styled-components", "react/jsx-runtime"],
 };
