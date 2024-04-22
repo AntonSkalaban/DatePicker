@@ -12,7 +12,29 @@ const config: StorybookConfig = {
     "@storybook/addon-interactions",
   ],
   webpackFinal: async (config) => {
+
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+
+    // This modifies the existing image rule to exclude .svg files
+    // since you want to handle those files with @svgr/webpack
+    const imageRule = config.module.rules.find((rule) => rule?.['test']?.test('.svg'));
+    if (imageRule) {
+      imageRule['exclude'] = /\.svg$/;
+    }
+
+    // Configure .svg files to be loaded with @svgr/webpack
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
+
     config.resolve.alias['components'] = path.resolve(__dirname, '../src/components');
+    config.resolve.alias['utils'] = path.resolve(__dirname, '../src/utils');
+    config.resolve.alias['constants'] = path.resolve(__dirname, '../src/constants');
+    config.resolve.alias['types'] = path.resolve(__dirname, '../src/types');
+    config.resolve.alias['styled'] = path.resolve(__dirname, '../src/styled');
+    config.resolve.alias['assets'] = path.resolve(__dirname, '../src/assets');
     return config;
   },
   framework: {

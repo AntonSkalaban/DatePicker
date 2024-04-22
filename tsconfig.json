@@ -25,9 +25,10 @@
         "types/*": ["types/*"],
         "utils/*": ["utils/*"],
         "tests/*": ["tests/*"],
+        "styled/*": ["styled/*"],
      }
     },
-    "include": ["src"],
+    "include": ["src", "src/typing/react-app-env.d.ts"],
     "exclude": [
         "node_modules",
         "dist"

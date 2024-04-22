@@ -1,5 +1,13 @@
 import React from "react";
-import { Calendar } from "components/Calendar";
+import { Calendar } from "components";
+import { GeneralStyles, NormalStyles } from "./styled";
+
 export const App: React.FC = () => {
-  return <Calendar />;
+  return (
+    <>
+      <GeneralStyles />
+      <NormalStyles />
+      <Calendar />
+    </>
+  );
 };
