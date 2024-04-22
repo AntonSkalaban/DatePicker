@@ -1,23 +1,16 @@
-import React, { useLayoutEffect, useState } from "react";
-import { weekdays } from "constants/index";
+import React, { useState } from "react";
 import { CalendarService } from "utils/services/calendarServeice";
 import { CalendarConfig } from "types";
+import { Dates } from "./Dates";
 import { OpenMonth } from "./OpenMonth";
-import { CalendarButton, StyledCalendar } from "./styled";
+import { Weekdays } from "./Weekdays";
+import { StyledCalendar } from "./styled";
 
 interface CalendarProps {
   fromDate?: string;
   toDate?: string;
   isWeekStartFromSun?: boolean;
 }
-
-const getWeekdays = (isWeekStartFromSun: boolean) => {
-  if (isWeekStartFromSun) return weekdays;
-  else {
-    weekdays.shift();
-    return [...weekdays, "Sun"];
-  }
-};
 
 const dateStrToFullDate = (dateStr: string) => {
   const [dd, mm, yy] = dateStr.split("/").map((d) => +d);
@@ -29,13 +22,6 @@ export const Calendar: React.FC<CalendarProps> = ({
   toDate = "2025/09/05",
   isWeekStartFromSun = true,
 }) => {
-  const [weekdays, setWeekdays] = useState([] as string[]);
-
-  useLayoutEffect(() => {
-    setWeekdays(getWeekdays(isWeekStartFromSun));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const [openFullDate, setOpenFullDate] = useState(
     new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   );
@@ -59,37 +45,8 @@ export const Calendar: React.FC<CalendarProps> = ({
       <StyledCalendar>
         <div>
           <OpenMonth openFullDate={openFullDate} changeOpenMonth={changeOpenMonth} />
-          <div style={{ display: "flex" }}>
-            {weekdays.map((day) => (
-              <span
-                key={day}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "32px",
-                  height: "32px",
-                }}
-              >
-                {day}
-              </span>
-            ))}
-          </div>
-          <div>
-            {calendar.map((week, index) => (
-              <div key={index}>
-                {week.map((date) => (
-                  <CalendarButton
-                    $isActive={date.getMonth() === openFullDate.getMonth()}
-                    key={date.toDateString()}
-                    style={{ width: "32px", height: "32px" }}
-                  >
-                    {date.getDate()}
-                  </CalendarButton>
-                ))}
-              </div>
-            ))}
-          </div>
+          <Weekdays isWeekStartFromSun={isWeekStartFromSun} />
+          <Dates openFullDate={openFullDate} dates={calendar} />
         </div>
       </StyledCalendar>
     </>
