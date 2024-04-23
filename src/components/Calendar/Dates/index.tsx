@@ -3,7 +3,7 @@ import { CalendarButton } from "./styled";
 
 interface DatesProps {
   openFullDate: Date;
-  dates: Date[][];
+  dates: { date: Date; isActive: boolean }[][];
 }
 
 export const Dates: React.FC<DatesProps> = ({ openFullDate, dates }) => {
@@ -11,11 +11,11 @@ export const Dates: React.FC<DatesProps> = ({ openFullDate, dates }) => {
     <div>
       {dates.map((week, index) => (
         <div key={index}>
-          {week.map((date) => (
+          {week.map(({ date, isActive }) => (
             <CalendarButton
               $isActive={date.getMonth() === openFullDate.getMonth()}
               key={date.toDateString()}
-              style={{ width: "32px", height: "32px" }}
+              style={{ background: `${isActive ? "pink" : " "}` }}
             >
               {date.getDate()}
             </CalendarButton>

@@ -26,6 +26,7 @@
         "utils/*": ["utils/*"],
         "tests/*": ["tests/*"],
         "styled/*": ["styled/*"],
+        "hocs/*": ["hocs/*"],
      }
     },
     "include": ["src", "src/typing/react-app-env.d.ts"],

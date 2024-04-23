@@ -33,6 +33,7 @@ export default {
         { find: "types", replacement: "./src/types" },
         { find: "styled", replacement: "./src/styled" },
         { find: "assets", replacement: "./src/assets" },
+        { find: "hocs", replacement: "./src/hocs" },
       ],
     }),
   ],

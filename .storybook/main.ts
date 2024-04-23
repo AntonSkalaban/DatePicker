@@ -35,6 +35,8 @@ const config: StorybookConfig = {
     config.resolve.alias['types'] = path.resolve(__dirname, '../src/types');
     config.resolve.alias['styled'] = path.resolve(__dirname, '../src/styled');
     config.resolve.alias['assets'] = path.resolve(__dirname, '../src/assets');
+    config.resolve.alias['hocs'] = path.resolve(__dirname, '../src/hocs');
+
     return config;
   },
   framework: {

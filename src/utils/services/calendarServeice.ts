@@ -1,4 +1,5 @@
 import {
+  dateStrToFullDate,
   geStartDateOfPrevWeek,
   getDaysInMonth,
   getNextMonth,
@@ -6,40 +7,29 @@ import {
   getPrevMonth,
   getPrevWeek,
 } from "utils/helpers/helpers";
-import { CalendarConfig } from "types";
+import { CalendarConfig, CalendarGrid } from "types";
+
+interface Calendar {
+  createCalendarGrid(openDate: Date, isWeekStartFromSun: boolean): CalendarGrid[][];
+}
 
 export class CalendarService {
+  calendar: Calendar;
   private config: CalendarConfig;
 
   constructor(config: CalendarConfig) {
     this.config = config;
+    this.calendar = new BaseCalendar();
+    if (config.withJumpByEnteredDate) this.calendar = new TransitionByDateDecorator(this.calendar);
   }
 
-  public createCalendar() {
-    const calendar = new BaseCalendar(this.config).createCalendar();
-
-    //     // Добавить дополнительные функциональные возможности с помощью декораторов
-    //     if (config.isEventRemindersEnabled()) {
-    //         calendar = new ReminderDecorator(calendar);
-    //     }
-    //     if (config.isSharingEnabled()) {
-    //         calendar = new SharingDecorator(calendar);
-    //     }
-
-    return calendar;
-    // }
+  createCalendar(): CalendarGrid[][] {
+    return this.calendar.createCalendarGrid(this.config.openDate, this.config.isWeekStartFromSun);
   }
 }
-export class BaseCalendar {
-  private config;
 
-  constructor(config: CalendarConfig) {
-    this.config = config;
-  }
-
-  createCalendar() {
-    const { openDate, isWeekStartFromSun } = this.config;
-
+export class BaseCalendar implements Calendar {
+  createCalendarGrid(openDate: Date, isWeekStartFromSun: boolean) {
     const [yy, mm] = [openDate.getFullYear(), openDate.getMonth()];
     const daysInMonth = getDaysInMonth(openDate);
 
@@ -59,7 +49,7 @@ export class BaseCalendar {
 
     for (let i = 1; i <= daysInMonth; i++) {
       const lastWeek = dates[dates.length - 1];
-      const newDate = new Date(yy, mm, i);
+      const newDate = { date: new Date(yy, mm, i), isActive: false };
 
       if (lastWeek.length < 7) {
         lastWeek.push(newDate);
@@ -72,3 +62,60 @@ export class BaseCalendar {
     return dates;
   }
 }
+
+export class TransitionByDateDecorator {
+  private calendar;
+
+  constructor(calendar: BaseCalendar) {
+    this.calendar = calendar;
+  }
+
+  createCalendarGrid(openDate: Date, isWeekStartFromSun: boolean): CalendarGrid[][] {
+    return this.calendar.createCalendarGrid(openDate, isWeekStartFromSun);
+  }
+
+  jumpByEnteredDateDecorator(dateStr: string, isWeekStartFromSun: boolean) {
+    const date = dateStrToFullDate(dateStr);
+    const calendargrid = this.calendar.createCalendarGrid(date, isWeekStartFromSun);
+    const jumpedCalendarGrid = calendargrid.map((week) => {
+      return week.map((day) => {
+        if (day.date.toDateString() === date.toDateString()) {
+          day.isActive = true;
+        }
+        return day;
+      });
+    });
+
+    return jumpedCalendarGrid;
+  }
+}
+
+// export class DateRangeDecorator {
+//   private calendar;
+
+//   constructor(calendar: BaseCalendar) {
+//     this.calendar = calendar;
+//   }
+
+//   createCalendarGrid(openDate: Date, isWeekStartFromSun: boolean): CalendarGrid[][] {
+//     return this.calendar.createCalendarGrid(openDate, isWeekStartFromSun);
+//   }
+
+//   getDateRange(startDate: string, endDate: string, isWeekStartFromSun: boolean) {
+//     const startFullDate = dateStrToFullDate(startDate);
+//     const endFullDate = dateStrToFullDate(endDate);
+
+//     const calendarGrid = this.calendar.createCalendarGrid(startFullDate, isWeekStartFromSun);
+
+//     const rangedCalendarGrid = calendarGrid.map((week) => {
+//       return week.map((day) => {
+//         if (day.date.toDateString() === date.toDateString()) {
+//           day.isActive = true;
+//         }
+//         return day;
+//       });
+//     });
+
+//     return jumpedCalendarGrid;
+//   }
+// }
