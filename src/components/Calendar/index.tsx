@@ -1,35 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
+import { CalendarGrid } from "types/CalendarGrid";
 import { Dates } from "./Dates";
 import { OpenMonth } from "./OpenMonth";
 import { Weekdays } from "./Weekdays";
 import { StyledCalendar } from "./styled";
 
 export interface CalendarProps {
-  calendarGrid: {
-    date: Date;
-    isActive: boolean;
-  }[][];
+  calendarGrid: CalendarGrid[][];
   openDate: Date;
   isWeekStartFromSun?: boolean;
+  changeOpenFullDate: (date: Date) => void;
 }
 
 export const Calendar: React.FC<CalendarProps> = ({
   isWeekStartFromSun = true,
   openDate,
   calendarGrid,
+  changeOpenFullDate,
 }) => {
-  const [openFullDate, setOpenFullDate] = useState(openDate);
-
-  const changeOpenMonth = (date: Date) => {
-    setOpenFullDate(date);
-  };
-
   return (
     <StyledCalendar>
       <div>
-        <OpenMonth openFullDate={openFullDate} changeOpenMonth={changeOpenMonth} />
+        <OpenMonth openFullDate={openDate} changeOpenMonth={changeOpenFullDate} />
         <Weekdays isWeekStartFromSun={isWeekStartFromSun} />
-        <Dates openFullDate={openFullDate} dates={calendarGrid} />
+        <Dates openFullDate={openDate} dates={calendarGrid} />
       </div>
     </StyledCalendar>
   );

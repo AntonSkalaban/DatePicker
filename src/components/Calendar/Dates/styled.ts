@@ -1,10 +1,20 @@
 import { styled } from "styled-components";
 
-export const CalendarButton = styled.button<{ $isActive?: boolean }>`
+type RangeStatus = "" | "endRange" | "startRange" | "inRange";
+
+const colors = {
+  startRange: "pink",
+  endRange: "pink",
+  inRange: "blue",
+};
+
+export const CalendarButton = styled.button<{
+  $isSelect?: boolean;
+  $isActive?: boolean;
+  $rangeStatus: RangeStatus;
+}>`
   width: 32px;
   height: 32px;
-
-  background: #ffffff;
 
   font-family: "Open Sans";
   font-style: normal;
@@ -12,5 +22,7 @@ export const CalendarButton = styled.button<{ $isActive?: boolean }>`
   font-size: 13px;
   line-height: 18px;
 
+  background: ${({ $isSelect, $rangeStatus }) =>
+    $rangeStatus ? colors[$rangeStatus] : $isSelect ? "pink" : "#ffffff "};
   color: ${({ $isActive }) => ($isActive ? "#333333;" : " #aaaaaa;")};
 `;

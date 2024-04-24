@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { CalendarIcon, ClearBtn, ClearIcon, DateInputContainer, StyledDateInput } from "./styled";
 
 const getValidationStatus = (dateStr: string) => {
@@ -17,11 +17,13 @@ const getValidationStatus = (dateStr: string) => {
 };
 
 interface DateInputProps {
+  value: string;
   title: string;
   onSubmit: (value: string) => void;
 }
-export const DateInput: React.FC<DateInputProps> = ({ title, onSubmit }) => {
-  const [date, setDate] = useState("");
+// eslint-disable-next-line react/display-name
+export const DateInput: React.FC<DateInputProps> = memo(({ value, title, onSubmit }) => {
+  const [date, setDate] = useState(value);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -71,4 +73,4 @@ export const DateInput: React.FC<DateInputProps> = ({ title, onSubmit }) => {
       {isError && <p>{errorMessage}</p>}
     </div>
   );
-};
+});

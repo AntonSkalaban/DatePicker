@@ -1,5 +1,5 @@
 export interface CalendarGrid {
   date: Date;
   isActive: boolean;
-  //rangeStatus:  'startRange', 'inRange', 'endRange'
+  rangeStatus: "startRange" | "inRange" | "endRange" | "";
 }

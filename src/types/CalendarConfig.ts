@@ -4,4 +4,5 @@ export interface CalendarConfig {
   toDate: Date;
   isWeekStartFromSun: boolean;
   withJumpByEnteredDate: boolean;
+  withDateRange: boolean;
 }

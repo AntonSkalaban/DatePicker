@@ -7,7 +7,6 @@ export const StyledCalendar = styled.section`
   /* align-items: center; */
   justify-content: center;
 
-  position: absolute;
   width: 250px;
   height: 273px;
   left: 70px;

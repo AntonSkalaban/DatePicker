@@ -3,8 +3,8 @@ import { CalendarProps } from "components/Calendar";
 import { DateInput } from "components/DateInput";
 
 export const withTransitionByDate =
-  (onChange: (dateStr: string) => void) => (Component: React.FC<CalendarProps>) => {
-    // eslint-disable-next-line react/display-name
+  (onChange: (dateStr: string) => void, selectDate: string) =>
+  (Component: React.FC<CalendarProps>) => {
     return (props: CalendarProps) => {
       const hanldeSubmit = (dateStr: string) => {
         onChange(dateStr);
@@ -12,7 +12,7 @@ export const withTransitionByDate =
 
       return (
         <>
-          <DateInput title="Open date" onSubmit={hanldeSubmit} />
+          <DateInput title="Open date" value={selectDate} onSubmit={hanldeSubmit} />
           <Component {...props} />
         </>
       );
