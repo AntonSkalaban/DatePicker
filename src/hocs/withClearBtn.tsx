@@ -1,6 +1,6 @@
 import React from "react";
 import { CalendarProps } from "components/Calendar";
-import { ClearButton } from "./styled";
+import { StyledContainerButton } from "components/styled/StyledComponetns";
 
 export const withClearBtn = (onClick: () => void) => (Component: React.FC<CalendarProps>) => {
   return (props: CalendarProps) => {
@@ -11,7 +11,7 @@ export const withClearBtn = (onClick: () => void) => (Component: React.FC<Calend
     return (
       <>
         <Component {...props} />
-        <ClearButton onClick={hanleCkick}>Clear</ClearButton>
+        <StyledContainerButton onClick={hanleCkick}>Clear</StyledContainerButton>
       </>
     );
   };

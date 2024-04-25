@@ -1,9 +1,10 @@
 import React from "react";
+import { StyledContainer } from "components/styled/StyledComponetns";
 import { CalendarGrid } from "types/CalendarGrid";
 import { Dates } from "./Dates";
 import { OpenMonth } from "./OpenMonth";
 import { Weekdays } from "./Weekdays";
-import { StyledCalendar } from "./styled";
+import { CalendarWrapper } from "./styled";
 
 export interface CalendarProps {
   calendarGrid: CalendarGrid[][];
@@ -23,12 +24,12 @@ export const Calendar: React.FC<CalendarProps> = ({
   withClearBtn,
 }) => {
   return (
-    <StyledCalendar $withBtn={withClearBtn}>
-      <div>
+    <CalendarWrapper id="calendar-wrapper">
+      <StyledContainer $withBtn={withClearBtn}>
         <OpenMonth openFullDate={openDate} changeOpenMonth={changeOpenFullDate} />
         <Weekdays isWeekStartFromSun={isWeekStartFromSun} />
         <Dates openFullDate={openDate} dates={calendarGrid} widthTodo={widthTodo} />
-      </div>
-    </StyledCalendar>
+      </StyledContainer>
+    </CalendarWrapper>
   );
 };

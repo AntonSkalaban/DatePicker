@@ -1,6 +1,8 @@
 import React, { ChangeEvent, FC, useState } from "react";
+import { createPortal } from "react-dom";
 import { ClearIcon } from "components/DateInput/styled";
-import { ClearBtn, SaveButton, StyledTextInput, TextInputWrapper } from "./styled";
+import { StyledContainer, StyledContainerButton } from "components/styled/StyledComponetns";
+import { ClearBtn, StyledTextInput, TextInputWrapper } from "./styled";
 
 interface TextInputProps {
   date: string;
@@ -27,16 +29,22 @@ export const TextInput: FC<TextInputProps> = ({ date, isOpen, onClose }) => {
 
   return (
     <>
-      {isOpen && (
-        <TextInputWrapper $withBtn={!!value}>
-          <ClearBtn onClick={hanldeClearClick}>
-            <ClearIcon />
-          </ClearBtn>
+      {isOpen &&
+        createPortal(
+          <TextInputWrapper>
+            <StyledContainer $withBtn={!!value} style={{ height: "100%" }}>
+              <ClearBtn onClick={hanldeClearClick}>
+                <ClearIcon />
+              </ClearBtn>
 
-          <StyledTextInput value={value} onChange={hanldeChange} placeholder="Todo..." />
-          {value && <SaveButton onClick={hanldeSaveBtnClick}>Save</SaveButton>}
-        </TextInputWrapper>
-      )}
+              <StyledTextInput value={value} onChange={hanldeChange} placeholder="Todo..." />
+            </StyledContainer>
+            {value && (
+              <StyledContainerButton onClick={hanldeSaveBtnClick}>Save</StyledContainerButton>
+            )}
+          </TextInputWrapper>,
+          document.getElementById("calendar-wrapper") as HTMLElement,
+        )}
     </>
   );
 };

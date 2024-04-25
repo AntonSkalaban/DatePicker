@@ -9,4 +9,5 @@ export const GeneralStyles = createGlobalStyle`
         line-height: 19px;
         color: #000000;
     }
+
   `;

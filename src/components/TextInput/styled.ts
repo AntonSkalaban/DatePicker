@@ -1,16 +1,11 @@
 import { styled } from "styled-components";
 
-export const TextInputWrapper = styled.div<{ $withBtn?: boolean }>`
-  width: 250px;
-  height: 273px;
+export const TextInputWrapper = styled.div`
+  height: 100%;
 
   position: absolute;
-  top: -55px;
+  top: 0px;
   left: -265px;
-  padding: 5px;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: ${({ $withBtn }) => ($withBtn ? " 8px 8px 0 0" : "8px")};
 `;
 
 export const StyledTextInput = styled.textarea`
@@ -45,12 +40,9 @@ export const ClearBtn = styled.button`
   cursor: pointer;
 `;
 
-export const SaveButton = styled.button`
-  width: 250px;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 0 0 8px 8px;
-  position: absolute;
-  top: 270px;
-  left: -1px;
-`;
+// export const SaveButton = styled.button`
+//   width: 250px;
+//   background: #ffffff;
+//   border: 1px solid #dddddd;
+//   border-radius: 0 0 8px 8px;
+// `;

@@ -34,7 +34,7 @@ export const CalendarButton = styled.button<{
 
   font-family: "Open Sans";
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 13px;
   line-height: 18px;
 
