@@ -5,14 +5,9 @@ import { withTransitionByDate } from "hocs/withTransitionByDate";
 import { Calendar } from "components";
 import { DateGrid } from "utils/helpers/DateGrid";
 import { dateStrToFullDate } from "utils/helpers/helpers";
-import {
-  BaseCalendar,
-  CalendarService,
-  DateRangeDecorator,
-  TransitionByDateDecorator,
-} from "utils/services/calendarServeice";
+import { BaseCalendar, CalendarService } from "utils/services/calendarServeice";
 import { CalendarConfig, CalendarGrid } from "./types";
-import { GeneralStyles, NormalStyles } from "./styled";
+import { FontStyles, GeneralStyles, NormalStyles } from "./styled";
 
 interface DatePickerProps {
   fromDate?: string;
@@ -20,6 +15,7 @@ interface DatePickerProps {
   isWeekStartFromSun?: boolean;
   withJumpByEnteredDate?: boolean;
   withDateRange?: boolean;
+  withTodo?: boolean;
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({
@@ -28,6 +24,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   isWeekStartFromSun = true,
   withJumpByEnteredDate = true,
   withDateRange = true,
+  withTodo = true,
 }) => {
   const [openDate, setOpenDate] = useState(
     new Date(new Date().getFullYear(), new Date().getMonth(), 1),
@@ -45,6 +42,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     isWeekStartFromSun,
     withJumpByEnteredDate,
     withDateRange,
+    withTodo,
   };
 
   const calendarService = new CalendarService(config);
@@ -55,13 +53,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const changeOpenFullDate = (date: Date) => {
-    setOpenDate(date);
-    let grid = (calendarService.calendar as BaseCalendar).createCalendarGrid(
-      date,
-      isWeekStartFromSun,
-    );
-
+  const combineCalendarsGrids = (grid: CalendarGrid[][]) => {
     if (withJumpByEnteredDate && selectDate) {
       grid = DateGrid.getWithSelectDate(grid, dateStrToFullDate(selectDate));
     }
@@ -77,40 +69,51 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     setCalendarGrid(grid);
   };
 
+  const changeOpenFullDate = (date: Date) => {
+    setOpenDate(date);
+    const grid = (calendarService.calendar as BaseCalendar).createCalendarGrid(
+      date,
+      isWeekStartFromSun,
+    );
+
+    combineCalendarsGrids(grid);
+  };
+
   let CalendarComponent = Calendar;
 
   if (withJumpByEnteredDate) {
-    const hanldeChange = (dateStr: string) => {
-      setCalendarGrid(
-        (calendarService.calendar as TransitionByDateDecorator).jumpByEnteredDate(
-          dateStrToFullDate(dateStr),
-          isWeekStartFromSun,
-        ),
-      );
-      setSelectDate(dateStr);
-      setOpenDate(dateStrToFullDate(dateStr));
+    const handleChange = (date: string, calendarGrid: CalendarGrid[][]) => {
+      setOpenDate(dateStrToFullDate(date));
+      setSelectDate(date);
+      combineCalendarsGrids(calendarGrid);
     };
 
-    CalendarComponent = withTransitionByDate(hanldeChange, selectDate)(CalendarComponent);
+    CalendarComponent = withTransitionByDate(
+      calendarService,
+      handleChange,
+      selectDate,
+    )(CalendarComponent);
   }
 
   if (withDateRange) {
-    const hanldeChange = (startDateStr: string, endDateStr: string) => {
-      setCalendarGrid(
-        (calendarService.calendar as DateRangeDecorator).getDateRangeGrid(
-          dateStrToFullDate(startDateStr),
-          dateStrToFullDate(endDateStr),
-          isWeekStartFromSun,
-        ),
-      );
-      setDateRange({ startDate: startDateStr, endDate: endDateStr });
+    const hanldeChange = (
+      startDateStr: string,
+      endDateStr: string,
+      calendarGrid: CalendarGrid[][],
+    ) => {
       setOpenDate(dateStrToFullDate(startDateStr));
+      setDateRange({ startDate: startDateStr, endDate: endDateStr });
+      combineCalendarsGrids(calendarGrid);
     };
 
-    CalendarComponent = withDateRangeControll(hanldeChange, dateRange)(CalendarComponent);
+    CalendarComponent = withDateRangeControll(
+      calendarService,
+      hanldeChange,
+      dateRange,
+    )(CalendarComponent);
   }
 
-  if (withJumpByEnteredDate || withDateRange) {
+  if (dateRange.startDate || dateRange.endDate || selectDate) {
     const hanldeClick = () => {
       setDateRange({ startDate: "", endDate: "" });
       setSelectDate("");
@@ -124,8 +127,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     <>
       <GeneralStyles />
       <NormalStyles />
+      <FontStyles />
 
       <CalendarComponent
+        withClearBtn={!!dateRange.startDate || !!dateRange.endDate || !!selectDate}
+        isWeekStartFromSun={isWeekStartFromSun}
+        widthTodo={withTodo}
         calendarGrid={calendarGrid}
         openDate={config.openDate}
         changeOpenFullDate={changeOpenFullDate}

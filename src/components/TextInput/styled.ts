@@ -1,25 +1,19 @@
 import { styled } from "styled-components";
-import Calendar from "assets/img/svg/calendar.svg";
-import Clear from "assets/img/svg/close.svg";
 
-// export cosnt DateInputWrapper = styled.div``
-
-export const DateInputContainer = styled.div`
+export const TextInputWrapper = styled.div<{ $withBtn?: boolean }>`
   width: 250px;
-  height: 42px;
+  height: 273px;
 
-  position: relative;
-
-  padding: 0px 39px;
-
+  position: absolute;
+  top: -55px;
+  left: -265px;
+  padding: 5px;
   background: #ffffff;
   border: 1px solid #dddddd;
-  border-radius: 8px;
-
-  margin-bottom: 10px;
+  border-radius: ${({ $withBtn }) => ($withBtn ? " 8px 8px 0 0" : "8px")};
 `;
 
-export const StyledDateInput = styled.input`
+export const StyledTextInput = styled.textarea`
   width: 100%;
   height: 100%;
 
@@ -31,22 +25,17 @@ export const StyledDateInput = styled.input`
   outline: none;
   border: none;
   padding: 0;
-`;
 
-export const CalendarIcon = styled(Calendar)`
-  position: absolute;
-  top: calc(50% - 8px);
-  left: 8px;
+  resize: none;
 `;
-
-export const ClearIcon = styled(Clear)``;
 
 export const ClearBtn = styled.button`
   width: 16px;
   height: 16px;
   border-radius: 50%;
   position: absolute;
-  top: calc(50% - 8px);
+  /* top: calc(50% - 8px); */
+  top: 8px;
   right: 8px;
   background: transparent;
   border: none;
@@ -54,4 +43,14 @@ export const ClearBtn = styled.button`
   height: fit-content;
   padding: 0;
   cursor: pointer;
+`;
+
+export const SaveButton = styled.button`
+  width: 250px;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 0 0 8px 8px;
+  position: absolute;
+  top: 270px;
+  left: -1px;
 `;

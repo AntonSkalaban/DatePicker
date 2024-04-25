@@ -8,22 +8,26 @@ import { StyledCalendar } from "./styled";
 export interface CalendarProps {
   calendarGrid: CalendarGrid[][];
   openDate: Date;
-  isWeekStartFromSun?: boolean;
+  isWeekStartFromSun: boolean;
+  widthTodo: boolean;
   changeOpenFullDate: (date: Date) => void;
+  withClearBtn: boolean;
 }
 
 export const Calendar: React.FC<CalendarProps> = ({
   isWeekStartFromSun = true,
   openDate,
   calendarGrid,
+  widthTodo,
   changeOpenFullDate,
+  withClearBtn,
 }) => {
   return (
-    <StyledCalendar>
+    <StyledCalendar $withBtn={withClearBtn}>
       <div>
         <OpenMonth openFullDate={openDate} changeOpenMonth={changeOpenFullDate} />
         <Weekdays isWeekStartFromSun={isWeekStartFromSun} />
-        <Dates openFullDate={openDate} dates={calendarGrid} />
+        <Dates openFullDate={openDate} dates={calendarGrid} widthTodo={widthTodo} />
       </div>
     </StyledCalendar>
   );

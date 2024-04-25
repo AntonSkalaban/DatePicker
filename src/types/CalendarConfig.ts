@@ -5,4 +5,5 @@ export interface CalendarConfig {
   isWeekStartFromSun: boolean;
   withJumpByEnteredDate: boolean;
   withDateRange: boolean;
+  withTodo: boolean;
 }
