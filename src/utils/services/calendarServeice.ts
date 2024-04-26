@@ -1,71 +1,108 @@
 import { DateGrid } from "utils/helpers/DateGrid";
+import { dateStrToFullDate } from "utils/helpers/helpers";
 import { CalendarConfig, CalendarGrid } from "types";
 
 interface Calendar {
-  createCalendarGrid(openDate: Date, isWeekStartFromSun: boolean): CalendarGrid[][];
-}
-
-export class CalendarService {
-  calendar: Calendar;
-  private config: CalendarConfig;
-
-  constructor(config: CalendarConfig) {
-    this.config = config;
-    this.calendar = new BaseCalendar();
-    // if (config.withJumpByEnteredDate) this.calendar = new TransitionByDateDecorator(this.calendar);
-    // if (config.withDateRange) this.calendar = new DateRangeDecorator(this.calendar);
-  }
-
-  createCalendar(openDate: Date): CalendarGrid[][] {
-    return this.calendar.createCalendarGrid(openDate, this.config.isWeekStartFromSun);
-  }
+  config: CalendarConfig;
+  grid: CalendarGrid[][];
+  getGrid(): CalendarGrid[][];
 }
 
 export class BaseCalendar implements Calendar {
-  createCalendarGrid(openDate: Date, isWeekStartFromSun: boolean) {
-    return DateGrid.createBaseGrid(openDate, isWeekStartFromSun);
+  config: CalendarConfig;
+  grid: CalendarGrid[][];
+
+  constructor(config: CalendarConfig) {
+    this.config = config;
+    this.grid = DateGrid.createBaseGrid(this.config.openDate, this.config.isWeekStartFromSun);
+  }
+  getGrid() {
+    return DateGrid.createBaseGrid(this.config.openDate, this.config.isWeekStartFromSun);
+  }
+}
+
+export class WeekendsAndHolidaysDecorator {
+  private calendar: Calendar;
+  config: CalendarConfig;
+  grid: CalendarGrid[][];
+
+  constructor(calendar: Calendar) {
+    this.calendar = calendar;
+    this.config = calendar.config;
+    this.grid = calendar.getGrid();
+  }
+
+  getGrid(): CalendarGrid[][] {
+    // const grid = this.calendar.getGrid();
+
+    return DateGrid.getWithHolidays(this.grid);
   }
 }
 
 export class TransitionByDateDecorator {
   private calendar;
   private selectDate;
+  config: CalendarConfig;
+  grid: CalendarGrid[][];
 
-  constructor(calendar: BaseCalendar, selectDate: Date) {
+  constructor(calendar: Calendar, selectDate: Date) {
     this.calendar = calendar;
     this.selectDate = selectDate;
+    this.config = calendar.config;
+    this.grid = calendar.getGrid();
   }
 
-  createCalendarGrid(openDate: Date, isWeekStartFromSun: boolean): CalendarGrid[][] {
-    const calendarGrid = this.calendar.createCalendarGrid(openDate, isWeekStartFromSun);
-    return DateGrid.getWithSelectDate(calendarGrid, this.selectDate);
+  getGrid(): CalendarGrid[][] {
+    // const calendarGrid = this.calendar.getGrid();
+    return DateGrid.getWithSelectDate(this.grid, this.selectDate);
   }
-
-  // jumpByEnteredDate(selectDate: Date, isWeekStartFromSun: boolean) {
-  //   const calendarGrid = this.calendar.createCalendarGrid(selectDate, isWeekStartFromSun);
-
-  //   return DateGrid.getWithSelectDate(calendarGrid, selectDate);
 }
 
 export class DateRangeDecorator {
   private calendar;
   private startDate;
   private endDate;
-  constructor(calendar: BaseCalendar, startDate: Date, endDate: Date) {
+  config: CalendarConfig;
+  grid: CalendarGrid[][];
+
+  constructor(calendar: Calendar, startDate: Date, endDate: Date) {
     this.calendar = calendar;
     this.startDate = startDate;
     this.endDate = endDate;
+    this.config = calendar.config;
+    this.grid = calendar.getGrid();
   }
 
-  createCalendarGrid(openDate: Date, isWeekStartFromSun: boolean): CalendarGrid[][] {
-    const calendarGrid = this.calendar.createCalendarGrid(openDate, isWeekStartFromSun);
+  getGrid(): CalendarGrid[][] {
+    // const calendarGrid = this.calendar.getGrid();
 
-    return DateGrid.getWithRange(calendarGrid, this.startDate, this.endDate);
+    return DateGrid.getWithRange(this.grid, this.startDate, this.endDate);
   }
+}
 
-  // getDateRangeGrid(startDate: Date, endDate: Date, isWeekStartFromSun: boolean) {
-  //   const calendarGrid = this.calendar.createCalendarGrid(startDate, isWeekStartFromSun);
+export class CalendarServise {
+  getCalendarGrid(config: CalendarConfig) {
+    let calendar = new BaseCalendar(config);
 
-  //   return DateGrid.getWithRange(calendarGrid, startDate, endDate);
-  // }
+    if (config.showWeekendsAndHoliday) {
+      calendar = new WeekendsAndHolidaysDecorator(calendar);
+    }
+
+    if (config.withJumpByEnteredDate) {
+      if (config.selectDate) {
+        calendar = new TransitionByDateDecorator(calendar, dateStrToFullDate(config.selectDate));
+      }
+    }
+
+    if (config.withDateRange) {
+      if (config.dateRange.startDate && config.dateRange.endDate) {
+        calendar = new DateRangeDecorator(
+          calendar,
+          dateStrToFullDate(config.dateRange.startDate),
+          dateStrToFullDate(config.dateRange.endDate),
+        );
+      }
+    }
+    return calendar.getGrid();
+  }
 }

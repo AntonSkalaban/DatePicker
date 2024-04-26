@@ -11,10 +11,17 @@ const bgColors = {
 };
 
 const colors = {
+  weekend: "rgba(166, 14, 14, 1)",
   nonActive: "rgba(170, 170, 170, 1)",
   active: "rgba(0, 0, 0, 1)",
   select: "rgba(255, 255, 255, 1)",
   inRange: "rgba(47, 128, 237, 1)",
+};
+
+const holidayColors: { [key: string]: string } = {
+  red: "rgba(166, 14, 14, 1)",
+  blue: "blue",
+  green: "green",
 };
 
 const borderdRadiuses = {
@@ -25,9 +32,12 @@ const borderdRadiuses = {
 };
 
 export const CalendarButton = styled.button<{
-  $isSelect?: boolean;
-  $isActive?: boolean;
+  $isSelect: boolean;
+  $isActive: boolean;
+  $isHoliday: boolean;
+  $isWeekend: boolean;
   $rangeStatus: RangeStatus;
+  $holidayColor: "red" | "green" | "blue";
 }>`
   width: 32px;
   height: 32px;
@@ -39,8 +49,8 @@ export const CalendarButton = styled.button<{
   line-height: 18px;
 
   border-radius: ${({ $isSelect, $rangeStatus }) => {
-    if ($isSelect) return borderdRadiuses.select;
     if ($rangeStatus) return borderdRadiuses[$rangeStatus];
+    if ($isSelect) return borderdRadiuses.select;
     return "0";
   }};
 
@@ -50,14 +60,18 @@ export const CalendarButton = styled.button<{
     return bgColors.default;
   }};
 
-  color: ${({ $isActive, $isSelect, $rangeStatus }) => {
+  color: ${({ $isActive, $isSelect, $rangeStatus, $isHoliday, $holidayColor, $isWeekend }) => {
+    if ($isHoliday) return holidayColors[$holidayColor];
+
     if ($isSelect || $rangeStatus === "endRange" || $rangeStatus === "startRange") {
       return colors.select;
     }
     if ($rangeStatus === "inRange") {
       return colors.inRange;
     }
+    if ($isWeekend) return colors.weekend;
     if ($isActive) return colors.active;
+
     return colors.nonActive;
   }};
 `;

@@ -6,4 +6,10 @@ export interface CalendarConfig {
   withJumpByEnteredDate: boolean;
   withDateRange: boolean;
   withTodo: boolean;
+  showWeekendsAndHoliday: boolean;
+  selectDate: string;
+  dateRange: {
+    startDate: string;
+    endDate: string;
+  };
 }

@@ -7,9 +7,10 @@ interface DatesProps {
   openFullDate: Date;
   dates: CalendarGrid[][];
   widthTodo: boolean;
+  holidayColor: "red" | "green" | "blue";
 }
 
-export const Dates: React.FC<DatesProps> = ({ openFullDate, dates, widthTodo }) => {
+export const Dates: React.FC<DatesProps> = ({ openFullDate, dates, widthTodo, holidayColor }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openDate, setOpenDate] = useState("");
 
@@ -28,13 +29,16 @@ export const Dates: React.FC<DatesProps> = ({ openFullDate, dates, widthTodo }) 
       <TextInput isOpen={isOpen} onClose={hanldeClose} date={openDate} />
       {dates.map((week, index) => (
         <div key={index}>
-          {week.map(({ date, isActive, rangeStatus }) => (
+          {week.map(({ date, isActive, rangeStatus, isHoliday, isWeekend }) => (
             <CalendarButton
               onClick={hanleClick(date)}
               key={date.toDateString()}
               $isActive={date.getMonth() === openFullDate.getMonth()}
               $isSelect={isActive}
+              $isHoliday={isHoliday}
+              $isWeekend={isWeekend}
               $rangeStatus={rangeStatus}
+              $holidayColor={holidayColor}
             >
               {date.getDate()}
             </CalendarButton>

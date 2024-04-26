@@ -1,15 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useState } from "react";
 import { CalendarProps } from "components/Calendar";
 import { DateInput } from "components/DateInput";
-import { dateStrToFullDate } from "utils/helpers/helpers";
-import { CalendarService, DateRangeDecorator } from "utils/services/calendarServeice";
-import { CalendarGrid } from "types/CalendarGrid";
 
 export const withDateRangeControll =
   (
-    calendarService: CalendarService,
-    onChange: (startDateStr: string, endDateStr: string, calendarGrid: CalendarGrid[][]) => void,
+    onChange: (startDateStr: string, endDateStr: string) => void,
     dateRange: {
       startDate: string;
       endDate: string;
@@ -21,24 +17,24 @@ export const withDateRangeControll =
       const [toEndDateStr, setToDateStr] = useState(dateRange.endDate);
 
       const hanldeRangeSelect = (startDate: string, endDate: string) => {
-        const calendarDecorator = new DateRangeDecorator(
-          calendarService.calendar,
-          dateStrToFullDate(startDate),
-          dateStrToFullDate(endDate),
-        );
-        const grid = calendarDecorator.createCalendarGrid(dateStrToFullDate(startDate), true);
-        onChange(startDate, endDate, grid);
+        onChange(startDate, endDate);
       };
 
-      const hanldeFromSubmit = (dateStr: string) => {
-        setFromDateStr(dateStr);
-        if (toEndDateStr) hanldeRangeSelect(dateStr, toEndDateStr);
-      };
+      const hanldeFromSubmit = useCallback(
+        (dateStr: string) => {
+          setFromDateStr(dateStr);
+          if (toEndDateStr) hanldeRangeSelect(dateStr, toEndDateStr);
+        },
+        [toEndDateStr],
+      );
 
-      const hanldeEndSubmit = (dateStr: string) => {
-        setToDateStr(dateStr);
-        if (fromDateStr) hanldeRangeSelect(fromDateStr, dateStr);
-      };
+      const hanldeEndSubmit = useCallback(
+        (dateStr: string) => {
+          setToDateStr(dateStr);
+          if (fromDateStr) hanldeRangeSelect(fromDateStr, dateStr);
+        },
+        [fromDateStr],
+      );
 
       return (
         <>

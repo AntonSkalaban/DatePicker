@@ -13,6 +13,7 @@ export interface CalendarProps {
   widthTodo: boolean;
   changeOpenFullDate: (date: Date) => void;
   withClearBtn: boolean;
+  holidayColor: "red" | "blue" | "green";
 }
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -22,13 +23,19 @@ export const Calendar: React.FC<CalendarProps> = ({
   widthTodo,
   changeOpenFullDate,
   withClearBtn,
+  holidayColor,
 }) => {
   return (
     <CalendarWrapper id="calendar-wrapper">
       <StyledContainer $withBtn={withClearBtn}>
         <OpenMonth openFullDate={openDate} changeOpenMonth={changeOpenFullDate} />
         <Weekdays isWeekStartFromSun={isWeekStartFromSun} />
-        <Dates openFullDate={openDate} dates={calendarGrid} widthTodo={widthTodo} />
+        <Dates
+          openFullDate={openDate}
+          dates={calendarGrid}
+          widthTodo={widthTodo}
+          holidayColor={holidayColor}
+        />
       </StyledContainer>
     </CalendarWrapper>
   );

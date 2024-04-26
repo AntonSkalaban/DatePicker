@@ -1,3 +1,4 @@
+import { holidays } from "constants/holidays";
 import { CalendarGrid } from "types/CalendarGrid";
 import {
   geStartDateOfPrevWeek,
@@ -36,6 +37,7 @@ export class DateGrid {
         date: new Date(yy, mm, i),
         isActive: false,
         rangeStatus: "",
+        isHoliday: false,
       };
 
       if (lastWeek.length < 7) {
@@ -52,10 +54,9 @@ export class DateGrid {
   static getWithSelectDate = (calendargrid: CalendarGrid[][], selectDate: Date) =>
     calendargrid.map((week) => {
       return week.map((day) => {
-        if (day.date.toDateString() === selectDate.toDateString()) {
-          day.isActive = true;
-        }
-        return day;
+        return day.date.toDateString() === selectDate.toDateString()
+          ? { ...day, isActive: true }
+          : day;
       });
     });
 
@@ -71,6 +72,20 @@ export class DateGrid {
         if (index === datesRange.length - 1) day.rangeStatus = "endRange";
 
         return day;
+      });
+    });
+  };
+
+  static getWithHolidays = (calendarGrid: CalendarGrid[][]) => {
+    return calendarGrid.map((week) => {
+      return week.map((day) => {
+        const [dd, mm, ,] = day.date.toLocaleDateString("ru-RU").split(".");
+
+        const dateStr = `${dd}-${mm}`;
+        const isWeekend = day.date.getDay() >= 5;
+        const isHoliday = !!holidays[dateStr];
+
+        return isWeekend || isHoliday ? { ...day, isHoliday, isWeekend } : day;
       });
     });
   };
