@@ -29,12 +29,12 @@ export const Dates: React.FC<DatesProps> = ({ openFullDate, dates, widthTodo, ho
       <TextInput isOpen={isOpen} onClose={hanldeClose} date={openDate} />
       {dates.map((week, index) => (
         <div key={index}>
-          {week.map(({ date, isActive, rangeStatus, isHoliday, isWeekend }) => (
+          {week.map(({ date, isSelect, rangeStatus, isHoliday, isWeekend }) => (
             <CalendarButton
               onClick={hanleClick(date)}
               key={date.toDateString()}
               $isActive={date.getMonth() === openFullDate.getMonth()}
-              $isSelect={isActive}
+              $isSelect={isSelect}
               $isHoliday={isHoliday}
               $isWeekend={isWeekend}
               $rangeStatus={rangeStatus}

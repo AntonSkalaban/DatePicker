@@ -4,7 +4,7 @@ import { withDateRangeControll } from "hocs/withDateRangeControll";
 import { withTransitionByDate } from "hocs/withTransitionByDate";
 import { Calendar } from "components";
 import { dateStrToFullDate } from "utils/helpers/helpers";
-import { CalendarServise } from "utils/services/calendarServeice";
+import { CalendarServise } from "utils/services/CalendarServise";
 import { CalendarConfig, CalendarGrid } from "./types";
 import { FontStyles, GeneralStyles, NormalStyles } from "./styled";
 
@@ -65,7 +65,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   useEffect(() => {
     const calendar = new CalendarServise();
     const grid = calendar.getCalendarGrid(config);
-
     setCalendarGrid(grid);
   }, [config]);
 

@@ -1,5 +1,11 @@
+import { weekdays } from "constants/index";
+
 export const getDaysInMonth = function (date: Date) {
   return 33 - new Date(date.getFullYear(), date.getMonth(), 33).getDate();
+};
+
+export const getDDMMYYFromDate = (date: Date) => {
+  return date.toLocaleDateString("ru-RU").split(".");
 };
 
 export const dateStrToFullDate = (dateStr: string) => {
@@ -37,31 +43,35 @@ export const getPrevWeek = (
   firstDayIndx: number,
 ) => {
   return Array.from({ length: firstDayIndx }).map((_, i) => {
-    // console.log(prevYear, prevMonth);
-    // console.log(new Date(prevYear, prevMonth));
     return {
       date: new Date(prevYear, prevMonth, startDateOfPrevWeek + i),
-      isActive: false,
+      isSelect: false,
       rangeStatus: "",
+      isHoliday: false,
+      isWeekend: false,
     };
   });
 };
 
 export const getNextWeek = (nextYear: number, nextMonth: number, lastDayIndx: number) => {
   return Array.from({ length: 7 - lastDayIndx - 1 }).map((_, i) => {
-    return { date: new Date(nextYear, nextMonth, i + 1), isActive: false, rangeStatus: "" };
+    return {
+      date: new Date(nextYear, nextMonth, i + 1),
+      isSelect: false,
+      rangeStatus: "",
+      isHoliday: false,
+      isWeekend: false,
+    };
   });
 };
 
-export const getDDMMYY = (date: Date) => {
-  return date
-    .toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-    .split("/")
-    .map((el) => +el);
+export const getWeekdays = (isWeekStartFromSun: boolean) => {
+  if (isWeekStartFromSun) return weekdays;
+  else {
+    const newWeekdays = [...weekdays];
+    newWeekdays.shift();
+    return [...newWeekdays, "Sun"];
+  }
 };
 
 export const getDatesRange = (startDate: Date, endDate: Date) => {

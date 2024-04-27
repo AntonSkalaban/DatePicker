@@ -1,18 +1,9 @@
 import React, { useLayoutEffect, useState } from "react";
-import { weekdays } from "constants/weekdays";
+import { getWeekdays } from "utils/helpers/helpers";
 
 interface WeekdaysProps {
   isWeekStartFromSun: boolean;
 }
-
-const getWeekdays = (isWeekStartFromSun: boolean) => {
-  if (isWeekStartFromSun) return weekdays;
-  else {
-    const newWeekdays = [...weekdays];
-    newWeekdays.shift();
-    return [...newWeekdays, "Sun"];
-  }
-};
 
 export const Weekdays: React.FC<WeekdaysProps> = ({ isWeekStartFromSun }) => {
   const [weekdays, setWeekdays] = useState([] as string[]);

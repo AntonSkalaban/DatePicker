@@ -1,6 +1,6 @@
 import React from "react";
 import { getMonthName } from "utils/helpers/getMonthName";
-import { getDDMMYY, getNextMonth, getPrevMonth } from "utils/helpers/helpers";
+import { getDDMMYYFromDate, getNextMonth, getPrevMonth } from "utils/helpers/helpers";
 import NextIcon from "assets/img/svg/next.svg";
 import PrevIcon from "assets/img/svg/prev.svg";
 
@@ -9,7 +9,7 @@ interface OpenMonthProps {
   changeOpenMonth: (date: Date) => void;
 }
 export const OpenMonth: React.FC<OpenMonthProps> = ({ openFullDate, changeOpenMonth }) => {
-  const [, mm, yy] = getDDMMYY(openFullDate);
+  const [, mm, yy] = getDDMMYYFromDate(openFullDate).map(Number);
 
   const toPrevMonth = () => {
     const [prevYear, prevMonth] = getPrevMonth(yy, mm);
