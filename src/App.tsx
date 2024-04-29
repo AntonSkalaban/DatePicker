@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { withClearBtn } from "hocs/withClearBtn";
+import { withClearButton } from "hocs/withClearButton";
 import { withDateRangeControll } from "hocs/withDateRangeControll";
 import { withTransitionByDate } from "hocs/withTransitionByDate";
 import { Calendar } from "components";
@@ -9,8 +9,8 @@ import { CalendarConfig, CalendarGrid } from "./types";
 import { FontStyles, GeneralStyles, NormalStyles } from "./styled";
 
 interface DatePickerProps {
-  fromDate?: string;
-  toDate?: string;
+  minDate?: string;
+  maxDate?: string;
   isWeekStartFromSun?: boolean;
   withJumpByEnteredDate?: boolean;
   withDateRange?: boolean;
@@ -20,8 +20,8 @@ interface DatePickerProps {
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({
-  fromDate = "2020/09/05",
-  toDate = "2025/09/05",
+  minDate = "05/09/2020",
+  maxDate = "07/07/2030",
   isWeekStartFromSun = true,
   withJumpByEnteredDate = true,
   withDateRange = true,
@@ -29,32 +29,30 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   showWeekendsAndHoliday = true,
   holidayColor = "red",
 }) => {
-  const [openDate, setOpenDate] = useState(new Date());
-  const [selectDate, setSelectDate] = useState("");
-  const [dateRange, setDateRange] = useState({ startDate: "", endDate: "" });
+  const [calendarSettings, setCalendarSettings] = useState({
+    openDate: new Date(),
+    selectDate: "",
+    dateRange: { startDate: "", endDate: "" },
+  });
   const [calendarGrid, setCalendarGrid] = useState([] as CalendarGrid[][]);
 
   const config: CalendarConfig = useMemo(() => {
     return {
-      openDate,
-      selectDate,
-      fromDate: dateStrToFullDate(fromDate),
-      toDate: dateStrToFullDate(toDate),
+      minDate: dateStrToFullDate(minDate),
+      maxDate: dateStrToFullDate(maxDate),
       isWeekStartFromSun,
       withJumpByEnteredDate,
       withDateRange,
-      dateRange,
       withTodo,
       showWeekendsAndHoliday,
+      ...calendarSettings,
     };
   }, [
-    openDate,
-    selectDate,
-    dateRange,
-    fromDate,
+    calendarSettings,
     isWeekStartFromSun,
+    maxDate,
+    minDate,
     showWeekendsAndHoliday,
-    toDate,
     withDateRange,
     withJumpByEnteredDate,
     withTodo,
@@ -69,33 +67,58 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   }, [config]);
 
   const hanldeClick = (date: Date) => {
-    setOpenDate(date);
+    setCalendarSettings((prev) => ({ ...prev, openDate: date }));
   };
 
   if (withJumpByEnteredDate) {
     const handleChange = (date: string) => {
-      setOpenDate(dateStrToFullDate(date));
-      setSelectDate(date);
+      setCalendarSettings((prev) => ({
+        ...prev,
+        setSelectDate: date,
+        openDate: dateStrToFullDate(date),
+      }));
     };
 
-    CalendarComponent = withTransitionByDate(handleChange, selectDate)(CalendarComponent);
+    CalendarComponent = withTransitionByDate(
+      handleChange,
+      calendarSettings.selectDate,
+      config.minDate,
+      config.maxDate,
+    )(CalendarComponent);
   }
 
   if (withDateRange) {
     const hanldeChange = (startDateStr: string, endDateStr: string) => {
-      setOpenDate(dateStrToFullDate(startDateStr));
-      setDateRange({ startDate: startDateStr, endDate: endDateStr });
+      setCalendarSettings((prev) => ({
+        ...prev,
+        dateRange: { startDate: startDateStr, endDate: endDateStr },
+        openDate: dateStrToFullDate(startDateStr),
+      }));
     };
-    CalendarComponent = withDateRangeControll(hanldeChange, dateRange)(CalendarComponent);
+
+    CalendarComponent = withDateRangeControll(
+      hanldeChange,
+      calendarSettings.dateRange,
+      config.minDate,
+      config.maxDate,
+    )(CalendarComponent);
   }
 
-  if (dateRange.startDate || dateRange.endDate || selectDate) {
+  const withClearBtn =
+    calendarSettings.dateRange.startDate ||
+    calendarSettings.dateRange.endDate ||
+    calendarSettings.selectDate;
+
+  if (withClearBtn) {
     const hanldeClick = () => {
-      setDateRange({ startDate: "", endDate: "" });
-      setSelectDate("");
-      setOpenDate(new Date());
+      setCalendarSettings((prev) => ({
+        ...prev,
+        dateRange: { startDate: "", endDate: "" },
+        openDate: new Date(),
+      }));
     };
-    CalendarComponent = withClearBtn(hanldeClick)(CalendarComponent);
+
+    CalendarComponent = withClearButton(hanldeClick)(CalendarComponent);
   }
 
   return (
@@ -105,7 +128,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <FontStyles />
 
       <CalendarComponent
-        withClearBtn={!!dateRange.startDate || !!dateRange.endDate || !!selectDate}
+        withClearBtn={!!withClearBtn}
         isWeekStartFromSun={isWeekStartFromSun}
         widthTodo={withTodo}
         calendarGrid={calendarGrid}

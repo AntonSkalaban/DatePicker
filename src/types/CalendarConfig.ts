@@ -1,7 +1,7 @@
 export interface CalendarConfig {
   openDate: Date;
-  fromDate: Date;
-  toDate: Date;
+  minDate: Date;
+  maxDate: Date;
   isWeekStartFromSun: boolean;
   withJumpByEnteredDate: boolean;
   withDateRange: boolean;
