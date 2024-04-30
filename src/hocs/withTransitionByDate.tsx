@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { CalendarProps } from "components/Calendar";
 import { DateInput } from "components/DateInput";
 import { defaultDateInputValidation } from "utils/helpers/dateInputValidations";
@@ -6,28 +6,25 @@ import { defaultDateInputValidation } from "utils/helpers/dateInputValidations";
 export const withTransitionByDate =
   (changeOpenDate: (date: string) => void, selectDateStr: string, minDate: Date, maxDate: Date) =>
   (Component: React.FC<CalendarProps>) => {
-    const [selectDate, setSelectDate] = useState({ value: selectDateStr, errorMessage: "" });
-
     return (props: CalendarProps) => {
-      const removeToDateError = useCallback(() => {
-        setSelectDate((prev) => ({ ...prev, errorMessage: "" }));
-      }, []);
+      const [selectDate, setSelectDate] = useState({ value: selectDateStr, errorMessage: "" });
 
-      const hanldeSubmit = useCallback((dateStr: string) => {
+      const hanldeSubmit = (dateStr: string) => {
+        setSelectDate({ value: dateStr, errorMessage: "" });
+        if (dateStr.length < 10) return;
+
         const errorMessage = defaultDateInputValidation(dateStr, minDate, maxDate);
-
-        setSelectDate({ value: dateStr, errorMessage: errorMessage || "" });
-
-        if (!errorMessage) changeOpenDate(dateStr);
-      }, []);
+        if (errorMessage) return setSelectDate((prev) => ({ ...prev, errorMessage: errorMessage }));
+        return changeOpenDate(dateStr);
+      };
 
       return (
         <>
           <DateInput
+            testId="date-select-input"
             title="Open date"
             value={selectDate.value}
             errorMessage={selectDate.errorMessage}
-            removeErrorMessage={removeToDateError}
             onSubmit={hanldeSubmit}
           />
           <Component {...props} />

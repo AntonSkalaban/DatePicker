@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useState } from "react";
 import { CalendarProps } from "components/Calendar";
 import { DateInput } from "components/DateInput";
@@ -19,51 +19,39 @@ export const withDateRangeControll =
       const [fromDate, setFromDate] = useState({ value: dateRange.startDate, errorMessage: "" });
       const [toDate, setToDate] = useState({ value: dateRange.endDate, errorMessage: "" });
 
-      const removeFromDateError = useCallback(() => {
-        setFromDate((prev) => ({ ...prev, errorMessage: "" }));
-      }, []);
+      const hanldeFromSubmit = (dateStr: string) => {
+        setFromDate({ value: dateStr, errorMessage: "" });
 
-      const removeToDateError = useCallback(() => {
-        setToDate((prev) => ({ ...prev, errorMessage: "" }));
-      }, []);
+        if (dateStr.length < 10) return;
+        const error = dateRangeValidation(dateStr, minDate, maxDate, dateStr, toDate.value);
+        if (error) return setFromDate((prev) => ({ ...prev, errorMessage: error }));
+        if (!error && toDate.value) return onChange(dateStr, toDate.value);
+      };
 
-      const hanldeFromSubmit = useCallback(
-        (dateStr: string) => {
-          const error = dateRangeValidation(dateStr, minDate, maxDate, dateStr, toDate.value);
+      const hanldeEndSubmit = (dateStr: string) => {
+        setToDate({ value: dateStr, errorMessage: "" });
 
-          setFromDate({ value: dateStr, errorMessage: error || "" });
-
-          if (!error && toDate.value) return onChange(dateStr, toDate.value);
-        },
-        [toDate.value],
-      );
-
-      const hanldeEndSubmit = useCallback(
-        (dateStr: string) => {
-          const error = dateRangeValidation(dateStr, minDate, maxDate, fromDate.value, dateStr);
-
-          setToDate({ value: dateStr, errorMessage: error || "" });
-
-          if (!error && fromDate.value) return onChange(fromDate.value, dateStr);
-        },
-        [fromDate.value],
-      );
+        if (dateStr.length < 10) return;
+        const error = dateRangeValidation(dateStr, minDate, maxDate, fromDate.value, dateStr);
+        if (error) return setToDate((prev) => ({ ...prev, errorMessage: error }));
+        if (!error && fromDate.value) return onChange(fromDate.value, dateStr);
+      };
 
       return (
         <>
           <DateInput
             title="From date"
-            value={dateRange.startDate}
+            testId="date-range-from-input"
+            value={fromDate.value}
             errorMessage={fromDate.errorMessage}
             onSubmit={hanldeFromSubmit}
-            removeErrorMessage={removeFromDateError}
           />
           <DateInput
             title="To date"
-            value={dateRange.endDate}
+            testId="date-range-to-input"
+            value={toDate.value}
             errorMessage={toDate.errorMessage}
             onSubmit={hanldeEndSubmit}
-            removeErrorMessage={removeToDateError}
           />
           <Component {...props} />
         </>

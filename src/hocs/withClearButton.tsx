@@ -11,7 +11,9 @@ export const withClearButton = (onClick: () => void) => (Component: React.FC<Cal
     return (
       <>
         <Component {...props} />
-        <StyledContainerButton onClick={hanleCkick}>Clear</StyledContainerButton>
+        <StyledContainerButton data-testid={"clear-button"} onClick={hanleCkick}>
+          Clear
+        </StyledContainerButton>
       </>
     );
   };

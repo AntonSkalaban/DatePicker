@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React from "react";
 import { getInputMask } from "utils/helpers/getInputMask";
 import { CalendarIcon, ClearBtn, ClearIcon, DateInputContainer, StyledDateInput } from "./styled";
 
@@ -6,44 +6,41 @@ interface DateInputProps {
   value: string;
   title: string;
   errorMessage: string;
+  testId: string;
   onSubmit: (value: string) => void;
-  removeErrorMessage: () => void;
 }
 
-export const DateInput: React.FC<DateInputProps> = memo(
-  ({ value, title, errorMessage, onSubmit, removeErrorMessage }) => {
-    const [date, setDate] = useState(value);
+export const DateInput: React.FC<DateInputProps> = ({
+  value,
+  title,
+  errorMessage,
+  testId,
+  onSubmit,
+}) => {
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    if (value.length >= 10) value = value.slice(0, 10);
+    const valueMask = getInputMask(value);
+    onSubmit(valueMask);
+  };
 
-    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (errorMessage) removeErrorMessage();
-      let value = e.target.value;
+  const hanldeClearClick = () => {
+    onSubmit("");
+  };
 
-      if (value.length >= 10) {
-        value = value.slice(0, 10);
-        onSubmit(value);
-      }
-      setDate(getInputMask(value));
-    };
-
-    const hanldeClearClick = () => {
-      setDate("");
-      removeErrorMessage();
-    };
-
-    return (
-      <div>
-        <p>{title}</p>
-        <DateInputContainer>
-          <CalendarIcon />
-          <StyledDateInput value={date} onChange={handleDateChange} />
-          {date && (
-            <ClearBtn onClick={hanldeClearClick}>
-              <ClearIcon />
-            </ClearBtn>
-          )}
-        </DateInputContainer>
-        {errorMessage && <p>{errorMessage}</p>}
-      </div>
-    );
-  },
-);
+  return (
+    <div>
+      <p>{title}</p>
+      <DateInputContainer>
+        <CalendarIcon />
+        <StyledDateInput autoFocus value={value} data-testid={testId} onChange={handleDateChange} />
+        {value && (
+          <ClearBtn onClick={hanldeClearClick}>
+            <ClearIcon />
+          </ClearBtn>
+        )}
+      </DateInputContainer>
+      {errorMessage && <p>{errorMessage}</p>}
+    </div>
+  );
+};

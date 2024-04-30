@@ -35,7 +35,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     dateRange: { startDate: "", endDate: "" },
   });
   const [calendarGrid, setCalendarGrid] = useState([] as CalendarGrid[][]);
-
   const config: CalendarConfig = useMemo(() => {
     return {
       minDate: dateStrToFullDate(minDate),
@@ -74,7 +73,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     const handleChange = (date: string) => {
       setCalendarSettings((prev) => ({
         ...prev,
-        setSelectDate: date,
+        selectDate: date,
         openDate: dateStrToFullDate(date),
       }));
     };
@@ -128,6 +127,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <FontStyles />
 
       <CalendarComponent
+        data-testId={"datePicker"}
         withClearBtn={!!withClearBtn}
         isWeekStartFromSun={isWeekStartFromSun}
         widthTodo={withTodo}
