@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { withClearButton } from "hocs/withClearButton";
 import { withDateRangeControll } from "hocs/withDateRangeControll";
 import { withTransitionByDate } from "hocs/withTransitionByDate";
+import { baseTheme } from "styled/baseTheme";
+import { ThemeProvider } from "styled-components";
 import { Calendar } from "components";
 import { dateStrToFullDate } from "utils/helpers/helpers";
 import { CalendarServise } from "utils/services/CalendarServise";
@@ -121,7 +123,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   }
 
   return (
-    <>
+    <ThemeProvider theme={baseTheme}>
       <GeneralStyles />
       <NormalStyles />
       <FontStyles />
@@ -136,6 +138,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         holidayColor={holidayColor}
         changeOpenFullDate={hanldeClick}
       />
-    </>
+    </ThemeProvider>
   );
 };

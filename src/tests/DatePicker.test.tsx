@@ -1,4 +1,5 @@
 import { fireEvent, render } from "@testing-library/react";
+import { baseTheme } from "styled/baseTheme";
 import { DatePicker } from "../App";
 
 import "jest-styled-components";
@@ -15,7 +16,7 @@ describe("DatePicker controls", () => {
     const selectDate = getByText("12");
 
     expect(input).toBeDefined();
-    expect(selectDate).toHaveStyleRule("background", "rgba(47, 128, 237, 1)");
+    expect(selectDate).toHaveStyleRule("background", baseTheme.colors.blue);
     expect(clearButton).toBeDefined();
     expect(calendarTitle).toBeDefined();
   });
@@ -39,8 +40,8 @@ describe("DatePicker controls", () => {
     expect(clearButton).toBeDefined();
 
     expect(calendarTitle).toBeDefined();
-    expect(startRangeBtn).toHaveStyleRule("background", "rgba(47, 128, 237, 0.6)");
-    expect(inRangeBtn).toHaveStyleRule("background", "rgba(47, 128, 237, 0.1)");
-    expect(endRangeBtn).toHaveStyleRule("background", "rgba(47, 128, 237, 0.6)");
+    expect(startRangeBtn).toHaveStyleRule("background", baseTheme.colors.lightBlue);
+    expect(inRangeBtn).toHaveStyleRule("background", baseTheme.colors.veryLightBlue);
+    expect(endRangeBtn).toHaveStyleRule("background", baseTheme.colors.lightBlue);
   });
 });
