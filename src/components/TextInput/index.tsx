@@ -37,10 +37,17 @@ export const TextInput: FC<TextInputProps> = ({ date, isOpen, onClose }) => {
                 <ClearIcon />
               </ClearBtn>
 
-              <StyledTextInput value={value} onChange={hanldeChange} placeholder="Todo..." />
+              <StyledTextInput
+                value={value}
+                onChange={hanldeChange}
+                autoFocus
+                placeholder="Todo..."
+              />
             </StyledContainer>
             {value && (
-              <StyledContainerButton onClick={hanldeSaveBtnClick}>Save</StyledContainerButton>
+              <StyledContainerButton data-testid="save-btn" onClick={hanldeSaveBtnClick}>
+                Save
+              </StyledContainerButton>
             )}
           </TextInputWrapper>,
           document.getElementById("calendar-wrapper") as HTMLElement,

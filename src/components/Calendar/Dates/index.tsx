@@ -17,7 +17,7 @@ export const Dates: React.FC<DatesProps> = ({ openFullDate, dates, widthTodo, ho
   const hanleClick = (date: Date) => () => {
     if (!widthTodo) return;
     setIsOpen(true);
-    setOpenDate(date.toUTCString());
+    setOpenDate(date.toDateString());
   };
 
   const hanldeClose = () => {
