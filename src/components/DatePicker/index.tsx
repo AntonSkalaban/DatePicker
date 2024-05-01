@@ -21,8 +21,8 @@ interface DatePickerProps {
 export const ConfigContext = createContext({} as CalendarConfig);
 
 export const DatePicker: React.FC<DatePickerProps> = ({
-  minDate = "01/01/2024",
-  maxDate = "07/06/2024",
+  minDate = "01/01/2020",
+  maxDate = "01/01/2025",
   isWeekStartFromSun = true,
   withJumpByEnteredDate = true,
   withDateRange = true,
