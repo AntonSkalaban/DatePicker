@@ -1,4 +1,4 @@
-import { Calendar } from "utils/services/BaseCalendar";
+import { Calendar } from "utils/services";
 import { CalendarConfig, CalendarGrid } from "types";
 
 export class SelectDateDecorator {

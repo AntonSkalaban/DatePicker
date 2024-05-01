@@ -1,3 +1,4 @@
+import { cellMixin } from "styled";
 import { styled } from "styled-components";
 
 type RangeStatus = "" | "endRange" | "startRange" | "inRange";
@@ -17,15 +18,7 @@ export const CalendarButton = styled.button<{
   $rangeStatus: RangeStatus;
   $holidayColor: "red" | "green" | "blue";
 }>`
-  width: 32px;
-  height: 32px;
-
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 18px;
-
+  ${cellMixin}
   border-radius: ${({ $isSelect, $rangeStatus }) => {
     if ($rangeStatus) return borderdRadiuses[$rangeStatus];
     if ($isSelect) return borderdRadiuses.select;

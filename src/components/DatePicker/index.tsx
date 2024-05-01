@@ -1,14 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { withClearButton } from "hocs/withClearButton";
-import { withDateRangeControll } from "hocs/withDateRangeControll";
-import { withTransitionByDate } from "hocs/withTransitionByDate";
-import { baseTheme } from "styled/baseTheme";
+import { withClearButton, withDateRangeControll, withTransitionByDate } from "hocs";
+import { GeneralStyles, NormalStyles } from "styled";
 import { ThemeProvider } from "styled-components";
 import { Calendar } from "components";
-import { dateStrToFullDate } from "utils/helpers/helpers";
-import { CalendarServise } from "utils/services/CalendarServise";
-import { CalendarConfig, CalendarGrid } from "./types";
-import { FontStyles, GeneralStyles, NormalStyles } from "./styled";
+import { baseTheme } from "constants/index";
+import { CalendarServise, dateStrToFullDate } from "utils";
+import { CalendarConfig, CalendarGrid } from "types";
 
 interface DatePickerProps {
   minDate?: string;
@@ -126,7 +123,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     <ThemeProvider theme={baseTheme}>
       <GeneralStyles />
       <NormalStyles />
-      <FontStyles />
 
       <CalendarComponent
         data-testId={"datePicker"}

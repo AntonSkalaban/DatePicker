@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
-import { baseTheme } from "styled/baseTheme";
-import { DatePicker } from "../App";
+import { baseTheme } from "constants/baseTheme";
+import { DatePicker } from "../components/DatePicker";
 import { mockGetItem, mockRemoveItem, mockSetItem } from "./mocks";
 
 import "jest-styled-components";

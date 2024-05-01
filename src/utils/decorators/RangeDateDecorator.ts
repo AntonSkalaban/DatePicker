@@ -1,5 +1,5 @@
-import { getDatesRange } from "utils/helpers/helpers";
-import { Calendar } from "utils/services/BaseCalendar";
+import { getDatesRange } from "utils/helpers";
+import { Calendar } from "utils/services";
 import { CalendarConfig, CalendarGrid } from "types";
 
 export class RangeDateDecorator {

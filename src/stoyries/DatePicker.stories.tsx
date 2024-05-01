@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { DateInput } from "./index";
+import { DatePicker } from "../components/DatePicker";
 
 const meta = {
-  title: "UI/DateInput",
-  component: DateInput,
+  title: "UI/DatePicker",
+  component: DatePicker,
   tags: ["autodocs"],
   parameters: { layout: "centered" },
-} satisfies Meta<typeof DateInput>;
+} satisfies Meta<typeof DatePicker>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = { args: { title: "Open date" } };
+export const Primary: Story = {};

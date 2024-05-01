@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
-import { getWeekdays } from "utils/helpers/helpers";
+import { getWeekdays } from "utils";
+import { WeekdayCell } from "./styled";
 
 interface WeekdaysProps {
   isWeekStartFromSun: boolean;
@@ -16,18 +17,7 @@ export const Weekdays: React.FC<WeekdaysProps> = ({ isWeekStartFromSun }) => {
   return (
     <div style={{ display: "flex" }}>
       {weekdays.map((day) => (
-        <span
-          key={day}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "32px",
-            height: "32px",
-          }}
-        >
-          {day}
-        </span>
+        <WeekdayCell key={day}>{day}</WeekdayCell>
       ))}
     </div>
   );

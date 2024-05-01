@@ -1,15 +1,15 @@
 import React from "react";
-import { getMonthName } from "utils/helpers/getMonthName";
-import { getDDMMYYFromDate, getNextMonth, getPrevMonth } from "utils/helpers/helpers";
+import { getDDMMYYFromDate, getMonthName, getNextMonth, getPrevMonth } from "utils";
 import NextIcon from "assets/img/svg/next.svg";
 import PrevIcon from "assets/img/svg/prev.svg";
+import { TitleContainer } from "./styled";
 
-interface OpenMonthProps {
-  openFullDate: Date;
+interface TitleProps {
+  openDate: Date;
   changeOpenMonth: (date: Date) => void;
 }
-export const OpenMonth: React.FC<OpenMonthProps> = ({ openFullDate, changeOpenMonth }) => {
-  const [, mm, yy] = getDDMMYYFromDate(openFullDate).map(Number);
+export const Title: React.FC<TitleProps> = ({ openDate, changeOpenMonth }) => {
+  const [, mm, yy] = getDDMMYYFromDate(openDate).map(Number);
 
   const toPrevMonth = () => {
     const [prevYear, prevMonth] = getPrevMonth(yy, mm);
@@ -22,16 +22,16 @@ export const OpenMonth: React.FC<OpenMonthProps> = ({ openFullDate, changeOpenMo
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+    <TitleContainer>
       <button onClick={toPrevMonth}>
         <PrevIcon />{" "}
       </button>
       <p>
-        {getMonthName(openFullDate)} {openFullDate.getFullYear()}
+        {getMonthName(openDate)} {openDate.getFullYear()}
       </p>
       <button onClick={toNextMonth}>
         <NextIcon />{" "}
       </button>
-    </div>
+    </TitleContainer>
   );
 };

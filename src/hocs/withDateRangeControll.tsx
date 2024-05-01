@@ -1,8 +1,6 @@
-import React from "react";
-import { useState } from "react";
-import { CalendarProps } from "components/Calendar";
-import { DateInput } from "components/DateInput";
-import { dateRangeValidation } from "utils/helpers/dateInputValidations";
+import React, { useState } from "react";
+import { CalendarProps, DateInput } from "components";
+import { dateRangeValidation } from "utils";
 
 export const withDateRangeControll =
   (

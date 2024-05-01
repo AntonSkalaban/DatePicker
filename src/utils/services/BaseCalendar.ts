@@ -1,11 +1,11 @@
 import {
-  geStartDateOfPrevWeek,
   getDaysInMonth,
   getNextMonth,
   getNextWeek,
   getPrevMonth,
   getPrevWeek,
-} from "utils/helpers/helpers";
+  getStartDateOfPrevWeek,
+} from "utils/helpers";
 import { CalendarConfig, CalendarGrid } from "types";
 
 export interface Calendar {
@@ -35,7 +35,7 @@ export class BaseCalendar implements Calendar {
     const [prevYear, prevMonth] = getPrevMonth(yy, mm);
     const [nextYear, nextMonth] = getNextMonth(yy, mm);
 
-    const startFullDateOfPrevWeek = geStartDateOfPrevWeek(prevYear, prevMonth, firstDayIndx);
+    const startFullDateOfPrevWeek = getStartDateOfPrevWeek(prevYear, prevMonth, firstDayIndx);
     const startDateOfPrevWeek = startFullDateOfPrevWeek.getDate();
 
     const prevWeek = getPrevWeek(prevYear, prevMonth, startDateOfPrevWeek, firstDayIndx);

@@ -1,5 +1,5 @@
 import React from "react";
-import { getInputMask } from "utils/helpers/getInputMask";
+import { getInputMask } from "utils";
 import { CalendarIcon, ClearBtn, ClearIcon, DateInputContainer, StyledDateInput } from "./styled";
 
 interface DateInputProps {

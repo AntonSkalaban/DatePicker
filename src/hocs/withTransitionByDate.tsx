@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { CalendarProps } from "components/Calendar";
-import { DateInput } from "components/DateInput";
-import { defaultDateInputValidation } from "utils/helpers/dateInputValidations";
+import { CalendarProps, DateInput } from "components";
+import { defaultDateInputValidation } from "utils";
 
 export const withTransitionByDate =
   (changeOpenDate: (date: string) => void, selectDateStr: string, minDate: Date, maxDate: Date) =>

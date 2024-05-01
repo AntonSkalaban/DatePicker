@@ -2,8 +2,6 @@ import { styled } from "styled-components";
 import Calendar from "assets/img/svg/calendar.svg";
 import Clear from "assets/img/svg/close.svg";
 
-// export cosnt DateInputWrapper = styled.div``
-
 export const DateInputContainer = styled.div`
   width: 250px;
   height: 42px;
@@ -23,8 +21,6 @@ export const StyledDateInput = styled.input`
   width: 100%;
   height: 100%;
 
-  font-family: "Open Sans";
-  font-style: normal;
   font-weight: 400;
   font-size: 15px;
   line-height: 20px;
