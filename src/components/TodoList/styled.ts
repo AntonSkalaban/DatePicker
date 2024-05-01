@@ -10,13 +10,12 @@ export const TextInputWrapper = styled.div`
 
 export const StyledTextInput = styled.textarea`
   width: 100%;
-  height: 100%;
-
-  font-family: "Open Sans";
-  font-style: normal;
+  max-height: 100%;
+  min-height: 42px;
   font-weight: 400;
   font-size: 15px;
   line-height: 20px;
+
   outline: none;
   border: none;
   padding: 0;
@@ -29,7 +28,6 @@ export const ClearBtn = styled.button`
   height: 16px;
   border-radius: 50%;
   position: absolute;
-  /* top: calc(50% - 8px); */
   top: 8px;
   right: 8px;
   background: transparent;
@@ -40,9 +38,12 @@ export const ClearBtn = styled.button`
   cursor: pointer;
 `;
 
-// export const SaveButton = styled.button`
-//   width: 250px;
-//   background: #ffffff;
-//   border: 1px solid #dddddd;
-//   border-radius: 0 0 8px 8px;
-// `;
+export const StyledTodoList = styled.ul`
+  max-height: 150px;
+  overflow: scroll;
+  list-style: inside;
+`;
+
+export const TodoListItem = styled.li`
+  overflow-wrap: break-word;
+`;

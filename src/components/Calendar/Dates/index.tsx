@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import { CalendarRow } from "styled";
-import { ConfigContext, TextInput } from "components";
+import { ConfigContext, TodoList } from "components";
 import { CalendarGrid } from "types";
 import { CalendarCell } from "./styled";
 
@@ -26,7 +26,7 @@ export const Dates: React.FC<DatesProps> = ({ dates }) => {
 
   return (
     <div style={{ position: "relative" }}>
-      <TextInput isOpen={isOpen} onClose={hanldeClose} date={openDate} />
+      <TodoList isOpen={isOpen} onClose={hanldeClose} date={openDate} />
       {dates.map((week, index) => (
         <CalendarRow key={index}>
           {week.map(({ date, isSelect, rangeStatus, isHoliday, isWeekend }) => (

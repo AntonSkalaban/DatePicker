@@ -65,18 +65,18 @@ describe("DatePicker controls", () => {
 
     fireEvent.click(dateBtn);
 
-    const textInput = getByPlaceholderText("Todo...") as HTMLInputElement;
+    const textInput = getByPlaceholderText("Add task...") as HTMLInputElement;
     fireEvent.change(textInput, { target: { value: "New task" } });
 
     const saveButton = getByTestId("save-btn");
     fireEvent.click(saveButton);
 
-    expect(textInput.value).toBe("New task");
+    expect(textInput.value).toBe("");
 
     const date = new Date();
     date.setDate(12);
 
     expect(mockSetItem).toHaveBeenCalledTimes(1);
-    expect(mockSetItem).toHaveBeenCalledWith(date.toDateString(), "New task");
+    expect(mockSetItem).toHaveBeenCalledWith(date.toDateString(), '["New task"]');
   });
 });

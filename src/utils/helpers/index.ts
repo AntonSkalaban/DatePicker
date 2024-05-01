@@ -4,3 +4,4 @@ export * from "./dateInputValidations";
 export * from "./getInputMask";
 export * from "./helpers";
 export * from "./month";
+export * from "./localStorage";

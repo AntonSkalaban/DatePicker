@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 export const StyledContainer = styled.div<{ $withBtn: boolean }>`
   width: 250px;
-
+  height: 100%;
   padding: 5px;
 
   background: #ffffff;
