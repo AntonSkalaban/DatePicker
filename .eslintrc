@@ -45,7 +45,10 @@
         "error",
         {
           "groups": [
-            ["^react", "^@?\\w",
+            ["^react",
+            "^styled-components"],
+            [
+             "^@?\\w",
             "^(pages)(/.*|$)",
             "^(components)(/.*|$)", 
             "^(store)(/.*|$)",

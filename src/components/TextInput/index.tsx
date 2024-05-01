@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FC, useState } from "react";
 import { createPortal } from "react-dom";
+
 import { StyledContainer, StyledContainerButton } from "styled";
 import { ClearIcon } from "components/DateInput/styled";
 import { ClearBtn, StyledTextInput, TextInputWrapper } from "./styled";

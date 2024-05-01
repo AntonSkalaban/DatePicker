@@ -3,7 +3,7 @@ export interface CalendarConfig {
   minDate: Date;
   maxDate: Date;
   isWeekStartFromSun: boolean;
-  withJumpByEnteredDate: boolean;
+  withDateSelect: boolean;
   withDateRange: boolean;
   withTodo: boolean;
   showWeekendsAndHoliday: boolean;

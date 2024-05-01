@@ -1,5 +1,6 @@
-import { cellMixin } from "styled";
 import { styled } from "styled-components";
+
+import { cellMixin } from "styled";
 
 type RangeStatus = "" | "endRange" | "startRange" | "inRange";
 

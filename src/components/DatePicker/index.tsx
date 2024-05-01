@@ -1,7 +1,8 @@
 import React, { createContext, useEffect, useMemo, useState } from "react";
+import { ThemeProvider } from "styled-components";
+
 import { withClearButton, withDateRangeControll, withTransitionByDate } from "hocs";
 import { GeneralStyles, NormalStyles } from "styled";
-import { ThemeProvider } from "styled-components";
 import { Calendar } from "components";
 import { baseTheme } from "constants/index";
 import { CalendarServise, dateStrToFullDate } from "utils";
@@ -11,7 +12,7 @@ interface DatePickerProps {
   minDate?: string;
   maxDate?: string;
   isWeekStartFromSun?: boolean;
-  withJumpByEnteredDate?: boolean;
+  withDateSelect?: boolean;
   withDateRange?: boolean;
   withTodo?: boolean;
   showWeekendsAndHoliday?: boolean;
@@ -24,7 +25,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   minDate = "01/01/2020",
   maxDate = "01/01/2025",
   isWeekStartFromSun = true,
-  withJumpByEnteredDate = true,
+  withDateSelect = true,
   withDateRange = true,
   withTodo = true,
   showWeekendsAndHoliday = true,
@@ -41,7 +42,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       minDate: dateStrToFullDate(minDate),
       maxDate: dateStrToFullDate(maxDate),
       isWeekStartFromSun,
-      withJumpByEnteredDate,
+      withDateSelect,
       withDateRange,
       withTodo,
       showWeekendsAndHoliday,
@@ -55,7 +56,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     minDate,
     showWeekendsAndHoliday,
     withDateRange,
-    withJumpByEnteredDate,
+    withDateSelect,
     withTodo,
     holidayColor,
   ]);
@@ -72,7 +73,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     setCalendarSettings((prev) => ({ ...prev, cuurentDate: date }));
   };
 
-  if (withJumpByEnteredDate) {
+  if (withDateSelect) {
     const handleChange = (date: string) => {
       setCalendarSettings((prev) => ({
         ...prev,

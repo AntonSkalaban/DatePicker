@@ -1,4 +1,6 @@
 import React, { useContext, useLayoutEffect, useState } from "react";
+
+import { CalendarRow } from "styled";
 import { ConfigContext } from "components/index";
 import { getWeekdays } from "utils";
 import { WeekdayCell } from "./styled";
@@ -13,10 +15,10 @@ export const Weekdays: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex" }}>
+    <CalendarRow>
       {weekdays.map((day) => (
         <WeekdayCell key={day}>{day}</WeekdayCell>
       ))}
-    </div>
+    </CalendarRow>
   );
 };
