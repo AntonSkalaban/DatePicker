@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import { withClearButton, withDateRangeControll, withTransitionByDate } from "hocs";
 import { GeneralStyles, NormalStyles } from "styled";
 import { ThemeProvider } from "styled-components";
@@ -18,9 +18,11 @@ interface DatePickerProps {
   holidayColor?: "red" | "blue" | "green";
 }
 
+export const ConfigContext = createContext({} as CalendarConfig);
+
 export const DatePicker: React.FC<DatePickerProps> = ({
-  minDate = "05/09/2020",
-  maxDate = "07/07/2030",
+  minDate = "01/01/2024",
+  maxDate = "07/06/2024",
   isWeekStartFromSun = true,
   withJumpByEnteredDate = true,
   withDateRange = true,
@@ -29,7 +31,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   holidayColor = "red",
 }) => {
   const [calendarSettings, setCalendarSettings] = useState({
-    openDate: new Date(),
+    cuurentDate: new Date(),
     selectDate: "",
     dateRange: { startDate: "", endDate: "" },
   });
@@ -43,6 +45,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       withDateRange,
       withTodo,
       showWeekendsAndHoliday,
+      holidayColor,
       ...calendarSettings,
     };
   }, [
@@ -54,6 +57,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     withDateRange,
     withJumpByEnteredDate,
     withTodo,
+    holidayColor,
   ]);
 
   let CalendarComponent = Calendar;
@@ -65,7 +69,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   }, [config]);
 
   const hanldeClick = (date: Date) => {
-    setCalendarSettings((prev) => ({ ...prev, openDate: date }));
+    setCalendarSettings((prev) => ({ ...prev, cuurentDate: date }));
   };
 
   if (withJumpByEnteredDate) {
@@ -73,16 +77,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       setCalendarSettings((prev) => ({
         ...prev,
         selectDate: date,
-        openDate: dateStrToFullDate(date),
+        cuurentDate: dateStrToFullDate(date),
       }));
     };
 
-    CalendarComponent = withTransitionByDate(
-      handleChange,
-      calendarSettings.selectDate,
-      config.minDate,
-      config.maxDate,
-    )(CalendarComponent);
+    CalendarComponent = withTransitionByDate(handleChange)(CalendarComponent);
   }
 
   if (withDateRange) {
@@ -90,16 +89,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       setCalendarSettings((prev) => ({
         ...prev,
         dateRange: { startDate: startDateStr, endDate: endDateStr },
-        openDate: dateStrToFullDate(startDateStr),
+        cuurentDate: dateStrToFullDate(startDateStr),
       }));
     };
 
-    CalendarComponent = withDateRangeControll(
-      hanldeChange,
-      calendarSettings.dateRange,
-      config.minDate,
-      config.maxDate,
-    )(CalendarComponent);
+    CalendarComponent = withDateRangeControll(hanldeChange)(CalendarComponent);
   }
 
   const withClearBtn =
@@ -112,7 +106,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       setCalendarSettings((prev) => ({
         ...prev,
         dateRange: { startDate: "", endDate: "" },
-        openDate: new Date(),
+        cuurentDate: new Date(),
       }));
     };
 
@@ -124,16 +118,13 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <GeneralStyles />
       <NormalStyles />
 
-      <CalendarComponent
-        data-testId={"datePicker"}
-        withClearBtn={!!withClearBtn}
-        isWeekStartFromSun={isWeekStartFromSun}
-        widthTodo={withTodo}
-        calendarGrid={calendarGrid}
-        openDate={config.openDate}
-        holidayColor={holidayColor}
-        changeOpenFullDate={hanldeClick}
-      />
+      <ConfigContext.Provider value={config}>
+        <CalendarComponent
+          withClearBtn={!!withClearBtn}
+          calendarGrid={calendarGrid}
+          changeOpenFullDate={hanldeClick}
+        />
+      </ConfigContext.Provider>
     </ThemeProvider>
   );
 };

@@ -1,12 +1,10 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
+import { ConfigContext } from "components/index";
 import { getWeekdays } from "utils";
 import { WeekdayCell } from "./styled";
 
-interface WeekdaysProps {
-  isWeekStartFromSun: boolean;
-}
-
-export const Weekdays: React.FC<WeekdaysProps> = ({ isWeekStartFromSun }) => {
+export const Weekdays: React.FC = () => {
+  const { isWeekStartFromSun } = useContext(ConfigContext);
   const [weekdays, setWeekdays] = useState([] as string[]);
 
   useLayoutEffect(() => {

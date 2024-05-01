@@ -1,5 +1,5 @@
 export interface CalendarConfig {
-  openDate: Date;
+  cuurentDate: Date;
   minDate: Date;
   maxDate: Date;
   isWeekStartFromSun: boolean;
@@ -12,4 +12,5 @@ export interface CalendarConfig {
     startDate: string;
     endDate: string;
   };
+  holidayColor: "red" | "blue" | "green";
 }

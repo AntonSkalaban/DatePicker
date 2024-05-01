@@ -10,7 +10,7 @@ const borderdRadiuses = {
   inRange: "0",
 };
 
-export const CalendarButton = styled.button<{
+export const CalendarCell = styled.button<{
   $isSelect: boolean;
   $isActive: boolean;
   $isHoliday: boolean;
@@ -43,7 +43,7 @@ export const CalendarButton = styled.button<{
   }) => {
     if ($isHoliday) return colors[$holidayColor];
     if ($isSelect || $rangeStatus === "endRange" || $rangeStatus === "startRange") {
-      return colors.lightBlue;
+      return colors.white;
     }
     if ($rangeStatus === "inRange") return colors.blue;
     if ($isWeekend) return colors.red;
@@ -51,4 +51,12 @@ export const CalendarButton = styled.button<{
 
     return colors.grey;
   }};
+
+  cursor: pointer;
+  &:hover {
+    ${({ $isSelect, $rangeStatus }) =>
+      $isSelect || $rangeStatus
+        ? "opacity: 0.7"
+        : `background: rgba(241, 241, 241, 1);  border-radius: ${borderdRadiuses.select};`};
+  }
 `;

@@ -20,3 +20,7 @@ export const StyledContainerButton = styled.button`
 
   font-weight: "400";
 `;
+
+export const CalendarRow = styled.div`
+  display: flex;
+`;

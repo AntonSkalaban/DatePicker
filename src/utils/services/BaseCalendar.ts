@@ -20,14 +20,14 @@ export class BaseCalendar implements Calendar {
     this.config = config;
   }
   getGrid() {
-    return BaseCalendar.createBaseGrid(this.config.openDate, this.config.isWeekStartFromSun);
+    return BaseCalendar.createBaseGrid(this.config.cuurentDate, this.config.isWeekStartFromSun);
   }
 
-  static createBaseGrid = (openDate: Date, isWeekStartFromSun: boolean): CalendarGrid[][] => {
-    const [yy, mm] = [openDate.getFullYear(), openDate.getMonth()];
+  static createBaseGrid = (currendDate: Date, isWeekStartFromSun: boolean): CalendarGrid[][] => {
+    const [yy, mm] = [currendDate.getFullYear(), currendDate.getMonth()];
 
     const firstDate = new Date(yy, mm);
-    const daysInMonth = getDaysInMonth(openDate);
+    const daysInMonth = getDaysInMonth(currendDate);
 
     const firstDayIndx = firstDate.getDay() - (isWeekStartFromSun ? 0 : 1);
     const lastDayIndx = new Date(yy, mm, daysInMonth).getDay() - (isWeekStartFromSun ? 0 : 1);

@@ -5,3 +5,9 @@ export const TitleContainer = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
+export const TitleButton = styled.button`
+  &:disabled {
+    opacity: 0.2;
+  }
+`;

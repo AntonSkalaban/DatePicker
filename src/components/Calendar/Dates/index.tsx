@@ -1,23 +1,22 @@
-import React, { useState } from "react";
-import { TextInput } from "components";
+import React, { useContext, useState } from "react";
+import { CalendarRow } from "styled";
+import { ConfigContext, TextInput } from "components";
 import { CalendarGrid } from "types";
-import { CalendarButton } from "./styled";
+import { CalendarCell } from "./styled";
 
 interface DatesProps {
-  openDate: Date;
   dates: CalendarGrid[][];
-  widthTodo: boolean;
-  holidayColor: "red" | "green" | "blue";
 }
 
-export const Dates: React.FC<DatesProps> = ({ openDate, dates, widthTodo, holidayColor }) => {
+export const Dates: React.FC<DatesProps> = ({ dates }) => {
+  const { cuurentDate, withTodo, holidayColor } = useContext(ConfigContext);
   const [isOpen, setIsOpen] = useState(false);
-  const [clickedDate, setClickedDate] = useState("");
+  const [openDate, setOpenDate] = useState("");
 
   const hanleClick = (date: Date) => () => {
-    if (!widthTodo) return;
+    if (!withTodo) return;
     setIsOpen(true);
-    setClickedDate(date.toDateString());
+    setOpenDate(date.toDateString());
   };
 
   const hanldeClose = () => {
@@ -26,14 +25,14 @@ export const Dates: React.FC<DatesProps> = ({ openDate, dates, widthTodo, holida
 
   return (
     <div style={{ position: "relative" }}>
-      <TextInput isOpen={isOpen} onClose={hanldeClose} date={clickedDate} />
+      <TextInput isOpen={isOpen} onClose={hanldeClose} date={openDate} />
       {dates.map((week, index) => (
-        <div key={index} style={{ display: "flex" }}>
+        <CalendarRow key={index}>
           {week.map(({ date, isSelect, rangeStatus, isHoliday, isWeekend }) => (
-            <CalendarButton
+            <CalendarCell
               onClick={hanleClick(date)}
               key={date.toDateString()}
-              $isActive={date.getMonth() === openDate.getMonth()}
+              $isActive={date.getMonth() === cuurentDate.getMonth()}
               $isSelect={isSelect}
               $isHoliday={isHoliday}
               $isWeekend={isWeekend}
@@ -41,9 +40,9 @@ export const Dates: React.FC<DatesProps> = ({ openDate, dates, widthTodo, holida
               $holidayColor={holidayColor}
             >
               {date.getDate()}
-            </CalendarButton>
+            </CalendarCell>
           ))}
-        </div>
+        </CalendarRow>
       ))}
     </div>
   );
