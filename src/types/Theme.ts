@@ -9,5 +9,6 @@ export interface Theme {
     green: string;
     pink: string;
     white: string;
+    lightGrey: string;
   };
 }

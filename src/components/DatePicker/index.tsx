@@ -74,11 +74,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   if (withDateSelect) {
-    const handleChange = (date: string) => {
+    const handleChange = (dateStr: string) => {
       setCalendarSettings((prev) => ({
         ...prev,
-        selectDate: date,
-        cuurentDate: dateStrToFullDate(date),
+        selectDate: dateStr,
+        cuurentDate: dateStrToFullDate(dateStr),
       }));
     };
 

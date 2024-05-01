@@ -15,7 +15,7 @@ export class CalendarServise {
       calendar = new WeekendsAndHolidaysDecorator(calendar);
     }
 
-    if (config.withJumpByEnteredDate) {
+    if (config.withDateSelect) {
       if (config.selectDate) {
         calendar = new SelectDateDecorator(calendar, dateStrToFullDate(config.selectDate));
       }

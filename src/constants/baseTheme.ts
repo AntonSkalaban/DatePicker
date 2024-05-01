@@ -9,5 +9,6 @@ export const baseTheme = {
     white: "rgba(255, 255, 255, 1)",
     green: "green",
     pink: "pink",
+    lightGrey: "rgba(241, 241, 241, 1)",
   },
 };

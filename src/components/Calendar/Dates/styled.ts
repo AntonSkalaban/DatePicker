@@ -55,9 +55,9 @@ export const CalendarCell = styled.button<{
 
   cursor: pointer;
   &:hover {
-    ${({ $isSelect, $rangeStatus }) =>
+    ${({ $isSelect, $rangeStatus, theme: { colors } }) =>
       $isSelect || $rangeStatus
         ? "opacity: 0.7"
-        : `background: rgba(241, 241, 241, 1);  border-radius: ${borderdRadiuses.select};`};
+        : `background: ${colors.lightGrey};  border-radius: ${borderdRadiuses.select};`};
   }
 `;

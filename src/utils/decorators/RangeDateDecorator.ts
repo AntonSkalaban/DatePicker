@@ -22,7 +22,6 @@ export class RangeDateDecorator {
 
   static getGridWithRange = (calendarGrid: CalendarGrid[][], startDate: Date, endDate: Date) => {
     const datesRange = getDatesRange(startDate, endDate).map((d) => d.toDateString());
-
     return calendarGrid.map((week) => {
       return week.map((day) => {
         const index = datesRange.indexOf(day.date.toDateString());
