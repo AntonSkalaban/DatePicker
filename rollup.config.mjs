@@ -4,6 +4,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
 import svgr from "@svgr/rollup";
+import path from "path";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 
 export default {
@@ -14,6 +15,9 @@ export default {
     file: "dist/bundle.js",
     format: "iife",
     globals: {
+      react: "React",
+      "styled-components": "styled",
+      "react-dom": "ReactDOM",
       "react/jsx-runtime": "jsxRuntime",
     },
   },
@@ -27,13 +31,13 @@ export default {
     svgr(),
     alias({
       entries: [
-        { find: "components", replacement: "./src/components" },
-        { find: "constants", replacement: "./src/constants" },
-        { find: "utils", replacement: "./src/utils" },
-        { find: "types", replacement: "./src/types" },
-        { find: "styled", replacement: "./src/styled" },
-        { find: "assets", replacement: "./src/assets" },
-        { find: "hocs", replacement: "./src/hocs" },
+        { find: "components", replacement: path.resolve(__dirname, "./src/components") },
+        { find: "constants", replacement: path.resolve(__dirname, "./src/constants") },
+        { find: "utils", replacement: path.resolve(__dirname, "./src/utils") },
+        { find: "types", replacement: path.resolve(__dirname, "./src/types") },
+        { find: "styled", replacement: path.resolve(__dirname, "./src/styled") },
+        { find: "assets", replacement: path.resolve(__dirname, "./src/assets") },
+        { find: "hocs", replacement: path.resolve(__dirname, "./src/hocs") },
       ],
     }),
   ],

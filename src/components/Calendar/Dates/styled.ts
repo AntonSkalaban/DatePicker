@@ -1,28 +1,8 @@
 import { styled } from "styled-components";
 
+import { cellMixin } from "styled";
+
 type RangeStatus = "" | "endRange" | "startRange" | "inRange";
-
-const bgColors = {
-  default: "rgba(255, 255, 255, 1)",
-  select: "rgba(47, 128, 237, 1)",
-  startRange: "rgba(47, 128, 237, 0.6)",
-  endRange: "rgba(47, 128, 237, 0.6)",
-  inRange: "rgba(47, 128, 237, 0.1)",
-};
-
-const colors = {
-  weekend: "rgba(166, 14, 14, 1)",
-  nonActive: "rgba(170, 170, 170, 1)",
-  active: "rgba(0, 0, 0, 1)",
-  select: "rgba(255, 255, 255, 1)",
-  inRange: "rgba(47, 128, 237, 1)",
-};
-
-const holidayColors: { [key: string]: string } = {
-  red: "rgba(166, 14, 14, 1)",
-  blue: "blue",
-  green: "green",
-};
 
 const borderdRadiuses = {
   select: "8px",
@@ -31,7 +11,7 @@ const borderdRadiuses = {
   inRange: "0",
 };
 
-export const CalendarButton = styled.button<{
+export const CalendarCell = styled.button<{
   $isSelect: boolean;
   $isActive: boolean;
   $isHoliday: boolean;
@@ -39,39 +19,45 @@ export const CalendarButton = styled.button<{
   $rangeStatus: RangeStatus;
   $holidayColor: "red" | "green" | "blue";
 }>`
-  width: 32px;
-  height: 32px;
-
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 18px;
-
+  ${cellMixin}
   border-radius: ${({ $isSelect, $rangeStatus }) => {
     if ($rangeStatus) return borderdRadiuses[$rangeStatus];
     if ($isSelect) return borderdRadiuses.select;
     return "0";
   }};
 
-  background: ${({ $isSelect, $rangeStatus }) => {
-    if ($isSelect) return bgColors.select;
-    if ($rangeStatus) return bgColors[$rangeStatus];
-    return bgColors.default;
+  background: ${({ $isSelect, $rangeStatus, theme: { colors } }) => {
+    if ($isSelect) return colors.blue;
+    if ($rangeStatus === "endRange" || $rangeStatus === "startRange") return colors.lightBlue;
+    if ($rangeStatus === "inRange") return colors.veryLightBlue;
+    return colors.white;
   }};
 
-  color: ${({ $isActive, $isSelect, $rangeStatus, $isHoliday, $holidayColor, $isWeekend }) => {
-    if ($isHoliday) return holidayColors[$holidayColor];
-
+  color: ${({
+    $isActive,
+    $isSelect,
+    $rangeStatus,
+    $isHoliday,
+    $holidayColor,
+    $isWeekend,
+    theme: { colors },
+  }) => {
+    if ($isHoliday) return colors[$holidayColor];
     if ($isSelect || $rangeStatus === "endRange" || $rangeStatus === "startRange") {
-      return colors.select;
+      return colors.white;
     }
-    if ($rangeStatus === "inRange") {
-      return colors.inRange;
-    }
-    if ($isWeekend) return colors.weekend;
-    if ($isActive) return colors.active;
+    if ($rangeStatus === "inRange") return colors.blue;
+    if ($isWeekend) return colors.red;
+    if ($isActive) return colors.black;
 
-    return colors.nonActive;
+    return colors.grey;
   }};
+
+  cursor: pointer;
+  &:hover {
+    ${({ $isSelect, $rangeStatus, theme: { colors } }) =>
+      $isSelect || $rangeStatus
+        ? "opacity: 0.7"
+        : `background: ${colors.lightGrey};  border-radius: ${borderdRadiuses.select};`};
+  }
 `;

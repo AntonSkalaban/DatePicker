@@ -1,4 +1,4 @@
 export * from "./styledComponents";
 export * from "./GenerlStyles";
 export * from "./NormalStyles";
-export * from "./FontStyles";
+export * from "./mixins";

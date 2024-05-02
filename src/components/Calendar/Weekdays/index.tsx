@@ -1,11 +1,12 @@
-import React, { useLayoutEffect, useState } from "react";
-import { getWeekdays } from "utils/helpers/helpers";
+import React, { useContext, useLayoutEffect, useState } from "react";
 
-interface WeekdaysProps {
-  isWeekStartFromSun: boolean;
-}
+import { CalendarRow } from "styled";
+import { ConfigContext } from "components/index";
+import { getWeekdays } from "utils";
+import { WeekdayCell } from "./styled";
 
-export const Weekdays: React.FC<WeekdaysProps> = ({ isWeekStartFromSun }) => {
+export const Weekdays: React.FC = () => {
+  const { isWeekStartFromSun } = useContext(ConfigContext);
   const [weekdays, setWeekdays] = useState([] as string[]);
 
   useLayoutEffect(() => {
@@ -14,21 +15,10 @@ export const Weekdays: React.FC<WeekdaysProps> = ({ isWeekStartFromSun }) => {
   }, []);
 
   return (
-    <div style={{ display: "flex" }}>
+    <CalendarRow>
       {weekdays.map((day) => (
-        <span
-          key={day}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "32px",
-            height: "32px",
-          }}
-        >
-          {day}
-        </span>
+        <WeekdayCell key={day}>{day}</WeekdayCell>
       ))}
-    </div>
+    </CalendarRow>
   );
 };

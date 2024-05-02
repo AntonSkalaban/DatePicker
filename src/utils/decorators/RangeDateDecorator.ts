@@ -1,5 +1,5 @@
-import { getDatesRange } from "utils/helpers/helpers";
-import { Calendar } from "utils/services/BaseCalendar";
+import { getDatesRange } from "utils/helpers";
+import { Calendar } from "utils/services";
 import { CalendarConfig, CalendarGrid } from "types";
 
 export class RangeDateDecorator {
@@ -22,7 +22,6 @@ export class RangeDateDecorator {
 
   static getGridWithRange = (calendarGrid: CalendarGrid[][], startDate: Date, endDate: Date) => {
     const datesRange = getDatesRange(startDate, endDate).map((d) => d.toDateString());
-
     return calendarGrid.map((week) => {
       return week.map((day) => {
         const index = datesRange.indexOf(day.date.toDateString());

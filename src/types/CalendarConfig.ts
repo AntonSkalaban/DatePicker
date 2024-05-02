@@ -1,9 +1,9 @@
 export interface CalendarConfig {
-  openDate: Date;
-  fromDate: Date;
-  toDate: Date;
+  cuurentDate: Date;
+  minDate: Date;
+  maxDate: Date;
   isWeekStartFromSun: boolean;
-  withJumpByEnteredDate: boolean;
+  withDateSelect: boolean;
   withDateRange: boolean;
   withTodo: boolean;
   showWeekendsAndHoliday: boolean;
@@ -12,4 +12,5 @@ export interface CalendarConfig {
     startDate: string;
     endDate: string;
   };
+  holidayColor: "red" | "blue" | "green";
 }
