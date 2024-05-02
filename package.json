@@ -8,7 +8,7 @@
     "registry": "https://npm.pkg.github.com/AntonSkalaban"
   },
   "scripts": {
-    "start": "rollup -c --watch",
+    "start": "rollup -c --watch --bundleConfigAsCjs",
     "build": "rollup -c --bundleConfigAsCjs",
     "eslint": "eslint src/",
     "eslint:fix": "eslint src/ --fix",
@@ -75,10 +75,5 @@
     "styled-components": "^6.1.8",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.7.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
   }
 }
