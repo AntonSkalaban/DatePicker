@@ -29,7 +29,9 @@ export class BaseCalendar implements Calendar {
     const firstDate = new Date(yy, mm);
     const daysInMonth = getDaysInMonth(currendDate);
 
-    const firstDayIndx = firstDate.getDay() - (isWeekStartFromSun ? 0 : 1);
+    const weekday = firstDate.getDay();
+
+    const firstDayIndx = isWeekStartFromSun ? weekday : weekday + (weekday ? -1 : 6);
     const lastDayIndx = new Date(yy, mm, daysInMonth).getDay() - (isWeekStartFromSun ? 0 : 1);
 
     const [prevYear, prevMonth] = getPrevMonth(yy, mm);
@@ -59,7 +61,10 @@ export class BaseCalendar implements Calendar {
         dates.push([newDate]);
       }
     }
-    dates[dates.length - 1].push(...nextWeek);
+
+    if (dates[dates.length - 1].length < 7) {
+      dates[dates.length - 1].push(...nextWeek);
+    }
 
     return dates as CalendarGrid[][];
   };
