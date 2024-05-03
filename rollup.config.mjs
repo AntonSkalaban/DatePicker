@@ -29,6 +29,7 @@ export default {
     typescript(),
     terser(),
     svgr(),
+  
     alias({
       entries: [
         { find: "components", replacement: path.resolve(__dirname, "./src/components") },

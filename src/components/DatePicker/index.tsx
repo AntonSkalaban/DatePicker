@@ -3,7 +3,7 @@ import { ThemeProvider } from "styled-components";
 
 import { withClearButton, withDateRangeControll, withTransitionByDate } from "hocs";
 import { GeneralStyles, NormalStyles } from "styled";
-import { Calendar } from "components";
+import { Calendar, ErrorBoundary } from "components";
 import { baseTheme } from "constants/index";
 import { CalendarServise, dateStrToFullDate } from "utils";
 import { CalendarConfig, CalendarGrid } from "types";
@@ -120,11 +120,13 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <NormalStyles />
 
       <ConfigContext.Provider value={config}>
-        <CalendarComponent
-          withClearBtn={!!withClearBtn}
-          calendarGrid={calendarGrid}
-          changeOpenFullDate={hanldeClick}
-        />
+        <ErrorBoundary>
+          <CalendarComponent
+            withClearBtn={!!withClearBtn}
+            calendarGrid={calendarGrid}
+            changeOpenFullDate={hanldeClick}
+          />
+        </ErrorBoundary>
       </ConfigContext.Provider>
     </ThemeProvider>
   );
