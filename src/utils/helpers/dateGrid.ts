@@ -6,7 +6,7 @@ export const getWeekdays = (isWeekStartFromSun: boolean) => {
   else {
     const newWeekdays = [...weekdays];
     newWeekdays.shift();
-    return [...newWeekdays, "Sun"];
+    return [...newWeekdays, "Su"];
   }
 };
 
