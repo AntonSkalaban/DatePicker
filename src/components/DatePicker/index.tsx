@@ -1,6 +1,7 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { ThemeProvider } from "styled-components";
 
+import { ConfigContext } from "context";
 import { withClearButton, withDateRangeControll, withTransitionByDate } from "hocs";
 import { GeneralStyles, NormalStyles } from "styled";
 import { Calendar, ErrorBoundary } from "components";
@@ -8,20 +9,9 @@ import { baseTheme } from "constants/index";
 import { CalendarServise, dateStrToFullDate } from "utils";
 import { CalendarConfig, CalendarGrid } from "types";
 
-interface DatePickerProps {
-  minDate?: string;
-  maxDate?: string;
-  isWeekStartFromSun?: boolean;
-  withDateSelect?: boolean;
-  withDateRange?: boolean;
-  withTodo?: boolean;
-  showWeekendsAndHoliday?: boolean;
-  holidayColor?: "red" | "blue" | "green";
-}
+import { DatePickerProps } from "./types";
 
-export const ConfigContext = createContext({} as CalendarConfig);
-
-export const DatePicker: React.FC<DatePickerProps> = ({
+export const DatePicker: FC<DatePickerProps> = ({
   minDate = "01/01/2020",
   maxDate = "01/01/2025",
   isWeekStartFromSun = false,
@@ -36,7 +26,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     selectDate: "",
     dateRange: { startDate: "", endDate: "" },
   });
+
   const [calendarGrid, setCalendarGrid] = useState([] as CalendarGrid[][]);
+
   const config: CalendarConfig = useMemo(() => {
     return {
       minDate: dateStrToFullDate(minDate),

@@ -1,9 +1,9 @@
-import React from "react";
+import { FC } from "react";
 
 import { StyledContainerButton } from "styled";
-import { CalendarProps } from "components/Calendar";
+import { CalendarProps } from "components/Calendar/types";
 
-export const withClearButton = (onClick: () => void) => (Component: React.FC<CalendarProps>) => {
+export const withClearButton = (onClick: () => void) => (Component: FC<CalendarProps>) => {
   return (props: CalendarProps) => {
     const hanleCkick = () => {
       onClick();

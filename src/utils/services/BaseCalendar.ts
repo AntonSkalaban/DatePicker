@@ -32,16 +32,13 @@ export class BaseCalendar implements Calendar {
     const weekday = firstDate.getDay();
 
     const firstDayIndx = isWeekStartFromSun ? weekday : weekday + (weekday ? -1 : 6);
-    const lastDayIndx = new Date(yy, mm, daysInMonth).getDay() - (isWeekStartFromSun ? 0 : 1);
 
     const [prevYear, prevMonth] = getPrevMonth(yy, mm);
-    const [nextYear, nextMonth] = getNextMonth(yy, mm);
 
     const startFullDateOfPrevWeek = getStartDateOfPrevWeek(prevYear, prevMonth, firstDayIndx);
     const startDateOfPrevWeek = startFullDateOfPrevWeek.getDate();
 
     const prevWeek = getPrevWeek(prevYear, prevMonth, startDateOfPrevWeek, firstDayIndx);
-    const nextWeek = getNextWeek(nextYear, nextMonth, lastDayIndx);
 
     const dates = [prevWeek];
 
@@ -63,6 +60,10 @@ export class BaseCalendar implements Calendar {
     }
 
     if (dates[dates.length - 1].length < 7) {
+      const [nextYear, nextMonth] = getNextMonth(yy, mm);
+      const lastDayIndx = new Date(yy, mm, daysInMonth).getDay() - (isWeekStartFromSun ? 0 : 1);
+
+      const nextWeek = getNextWeek(nextYear, nextMonth, lastDayIndx);
       dates[dates.length - 1].push(...nextWeek);
     }
 

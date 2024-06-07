@@ -1,11 +1,12 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import { FC, useContext, useLayoutEffect, useState } from "react";
 
+import { ConfigContext } from "context";
 import { CalendarRow } from "styled";
-import { ConfigContext } from "components/index";
 import { getWeekdays } from "utils";
+
 import { WeekdayCell } from "./styled";
 
-export const Weekdays: React.FC = () => {
+export const Weekdays: FC = () => {
   const { isWeekStartFromSun } = useContext(ConfigContext);
   const [weekdays, setWeekdays] = useState([] as string[]);
 

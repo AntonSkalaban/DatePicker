@@ -1,10 +1,12 @@
-import React, { useContext, useState } from "react";
+import { FC, useContext, useState } from "react";
 
-import { CalendarProps, ConfigContext, DateInput } from "components";
+import { ConfigContext } from "context";
+import { DateInput } from "components";
+import { CalendarProps } from "components/Calendar/types";
 import { defaultDateInputValidation } from "utils";
 
 export const withTransitionByDate =
-  (changeOpenDate: (date: string) => void) => (Component: React.FC<CalendarProps>) => {
+  (changeOpenDate: (date: string) => void) => (Component: FC<CalendarProps>) => {
     return (props: CalendarProps) => {
       const { minDate, maxDate, selectDate } = useContext(ConfigContext);
       const [dateInput, setDateInput] = useState({

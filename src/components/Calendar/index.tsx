@@ -1,23 +1,14 @@
-import React from "react";
+import { FC } from "react";
 
 import { StyledContainer } from "styled";
-import { CalendarGrid } from "types";
+
 import { Dates } from "./Dates";
 import { Title } from "./Title";
+import { CalendarProps } from "./types";
 import { Weekdays } from "./Weekdays";
 import { CalendarWrapper } from "./styled";
 
-export interface CalendarProps {
-  calendarGrid: CalendarGrid[][];
-  changeOpenFullDate: (date: Date) => void;
-  withClearBtn: boolean;
-}
-
-export const Calendar: React.FC<CalendarProps> = ({
-  calendarGrid,
-  changeOpenFullDate,
-  withClearBtn,
-}) => {
+export const Calendar: FC<CalendarProps> = ({ calendarGrid, changeOpenFullDate, withClearBtn }) => {
   return (
     <CalendarWrapper id="calendar-wrapper">
       <StyledContainer $withBtn={withClearBtn}>

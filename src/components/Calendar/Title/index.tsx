@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
+import { FC, useContext } from "react";
 
-import { ConfigContext } from "components/index";
+import { ConfigContext } from "context";
 import { getDDMMYYFromDate, getMonthName, getNextMonth, getPrevMonth } from "utils";
 import NextIcon from "assets/img/svg/next.svg";
 import PrevIcon from "assets/img/svg/prev.svg";
+
+import { TitleProps } from "./types";
 import { TitleButton, TitleContainer } from "./styled";
 
-interface TitleProps {
-  changeOpenMonth: (date: Date) => void;
-}
-export const Title: React.FC<TitleProps> = ({ changeOpenMonth }) => {
+export const Title: FC<TitleProps> = ({ changeOpenMonth }) => {
   const { maxDate, minDate, cuurentDate } = useContext(ConfigContext);
 
   const [, mm, yy] = getDDMMYYFromDate(cuurentDate).map(Number);
