@@ -1,15 +1,13 @@
-import React, { useContext, useState } from "react";
+import { FC, useContext, useState } from "react";
 
+import { ConfigContext } from "context";
 import { CalendarRow } from "styled";
-import { ConfigContext, TodoList } from "components";
-import { CalendarGrid } from "types";
+import { TodoList } from "components";
+
+import { DatesProps } from "./types";
 import { CalendarCell } from "./styled";
 
-interface DatesProps {
-  dates: CalendarGrid[][];
-}
-
-export const Dates: React.FC<DatesProps> = ({ dates }) => {
+export const Dates: FC<DatesProps> = ({ dates }) => {
   const { cuurentDate, withTodo, holidayColor } = useContext(ConfigContext);
   const [isOpen, setIsOpen] = useState(false);
   const [openDate, setOpenDate] = useState("");

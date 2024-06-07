@@ -22,27 +22,41 @@ const config: StorybookConfig = {
     if (imageRule) {
       imageRule['exclude'] = /\.svg$/;
     }
-
     // Configure .svg files to be loaded with @svgr/webpack
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     });
 
-    config.resolve.alias['components'] = path.resolve(__dirname, '../src/components');
-    config.resolve.alias['utils'] = path.resolve(__dirname, '../src/utils');
-    config.resolve.alias['constants'] = path.resolve(__dirname, '../src/constants');
-    config.resolve.alias['types'] = path.resolve(__dirname, '../src/types');
-    config.resolve.alias['styled'] = path.resolve(__dirname, '../src/styled');
-    config.resolve.alias['assets'] = path.resolve(__dirname, '../src/assets');
-    config.resolve.alias['hocs'] = path.resolve(__dirname, '../src/hocs');
-
+    if(config?.resolve?.alias) {
+      config.resolve.alias['components'] = path.resolve(__dirname, '../src/components');
+      config.resolve.alias['utils'] = path.resolve(__dirname, '../src/utils');
+      config.resolve.alias['constants'] = path.resolve(__dirname, '../src/constants');
+      config.resolve.alias['types'] = path.resolve(__dirname, '../src/types');
+      config.resolve.alias['styled'] = path.resolve(__dirname, '../src/styled');
+      config.resolve.alias['assets'] = path.resolve(__dirname, '../src/assets');
+      config.resolve.alias['hocs'] = path.resolve(__dirname, '../src/hocs');
+      config.resolve.alias['context'] = path.resolve(__dirname, '../src/context');
+  }
     return config;
   },
   framework: {
     name: "@storybook/react-webpack5",
-    options: {},
+    options: {
+      builder: {
+        useSWC: true
+      }
+    }
   },
+  swc: () => ({
+    jsc: {
+      transform: {
+        react: {
+          runtime: 'automatic'
+        }
+      }
+    }
+  }),
   docs: {
     autodocs: "tag",
   },
