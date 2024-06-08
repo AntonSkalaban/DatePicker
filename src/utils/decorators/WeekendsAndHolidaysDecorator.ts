@@ -1,6 +1,5 @@
 import { holidays } from "constants/index";
-import { getDDMMYYFromDate } from "utils/helpers";
-import { Calendar } from "utils/services";
+import { Calendar, getDDMMYYFromDate } from "utils";
 import { CalendarConfig, CalendarGrid } from "types";
 
 export class WeekendsAndHolidaysDecorator {

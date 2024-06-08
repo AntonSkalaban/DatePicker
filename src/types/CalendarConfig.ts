@@ -13,4 +13,5 @@ export interface CalendarConfig {
     endDate: string;
   };
   holidayColor: "red" | "blue" | "green";
+  todos: { date: string; todo: string[] }[];
 }

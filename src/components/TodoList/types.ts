@@ -1,5 +1,5 @@
 export interface TodoListProps {
-  date: string;
-  isOpen: boolean;
+  todoData: { date: string; todo: string[] };
   onClose: () => void;
+  addTodo: ({ date, todo }: { date: string; todo: string[] }) => void;
 }

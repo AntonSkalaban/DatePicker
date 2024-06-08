@@ -1,4 +1,5 @@
 import { weekdays } from "constants/index";
+
 import { getDaysInMonth } from "./month";
 
 export const getWeekdays = (isWeekStartFromSun: boolean) => {
