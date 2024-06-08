@@ -1,10 +1,12 @@
 import {
+  dateStrToFullDate,
   RangeDateDecorator,
   SelectDateDecorator,
+  TodoDecorator,
   WeekendsAndHolidaysDecorator,
-} from "utils/decorators";
-import { dateStrToFullDate } from "utils/helpers/helpers";
+} from "utils";
 import { CalendarConfig } from "types";
+
 import { BaseCalendar } from "./BaseCalendar";
 
 export class CalendarServise {
@@ -29,6 +31,10 @@ export class CalendarServise {
           dateStrToFullDate(config.dateRange.endDate),
         );
       }
+    }
+
+    if (config.withTodo) {
+      calendar = new TodoDecorator(calendar, config.todos);
     }
     return calendar.getGrid();
   }

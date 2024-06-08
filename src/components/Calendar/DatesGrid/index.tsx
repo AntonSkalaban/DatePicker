@@ -4,33 +4,34 @@ import { ConfigContext } from "context";
 import { CalendarRow } from "styled";
 import { TodoList } from "components";
 
-import { DatesProps } from "./types";
+import { DatesGridProps } from "./types";
 import { CalendarCell } from "./styled";
 
-export const Dates: FC<DatesProps> = ({ dates }) => {
+export const DatesGrid: FC<DatesGridProps> = ({ dates, addTodo }) => {
   const { cuurentDate, withTodo, holidayColor } = useContext(ConfigContext);
-  const [isOpen, setIsOpen] = useState(false);
-  const [openDate, setOpenDate] = useState("");
+  const [isTodoListOpen, setIsTodoListOpen] = useState(false);
+  const [todoData, setTodoData] = useState({ date: "", todo: [] as string[] });
 
-  const hanleClick = (date: Date) => () => {
+  const hanleClick = (date: Date, todo: string[] | null) => () => {
     if (!withTodo) return;
-    setIsOpen(true);
-    setOpenDate(date.toDateString());
+    setIsTodoListOpen(true);
+    setTodoData({ date: date.toDateString(), todo: todo ?? [] });
   };
 
   const hanldeClose = () => {
-    setIsOpen(false);
+    setIsTodoListOpen(false);
   };
 
   return (
-    <div style={{ position: "relative" }}>
-      <TodoList isOpen={isOpen} onClose={hanldeClose} date={openDate} />
+    <div>
+      {isTodoListOpen && <TodoList addTodo={addTodo} onClose={hanldeClose} todoData={todoData} />}
       {dates.map((week, index) => (
         <CalendarRow key={index}>
-          {week.map(({ date, isSelect, rangeStatus, isHoliday, isWeekend }) => (
+          {week.map(({ date, isSelect, rangeStatus, isHoliday, isWeekend, todo }) => (
             <CalendarCell
-              onClick={hanleClick(date)}
+              onClick={hanleClick(date, todo)}
               key={date.toDateString()}
+              $withTask={!!todo}
               $isActive={date.getMonth() === cuurentDate.getMonth()}
               $isSelect={isSelect}
               $isHoliday={isHoliday}

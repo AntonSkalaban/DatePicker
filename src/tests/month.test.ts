@@ -1,4 +1,5 @@
 import { getDaysInMonth, getMonthName, getNextMonth, getPrevMonth } from "utils/index";
+
 import { date } from "./mocks";
 
 describe("Month tests", () => {

@@ -6,7 +6,7 @@ import { withClearButton, withDateRangeControll, withTransitionByDate } from "ho
 import { GeneralStyles, NormalStyles } from "styled";
 import { Calendar, ErrorBoundary } from "components";
 import { baseTheme } from "constants/index";
-import { CalendarServise, dateStrToFullDate } from "utils";
+import { CalendarServise, dateStrToFullDate, getArrayFromLS } from "utils";
 import { CalendarConfig, CalendarGrid } from "types";
 
 import { DatePickerProps } from "./types";
@@ -25,6 +25,7 @@ export const DatePicker: FC<DatePickerProps> = ({
     cuurentDate: new Date(),
     selectDate: "",
     dateRange: { startDate: "", endDate: "" },
+    todos: getArrayFromLS<{ date: string; todo: string[] }>("todos") || [],
   });
 
   const [calendarGrid, setCalendarGrid] = useState([] as CalendarGrid[][]);
@@ -61,8 +62,15 @@ export const DatePicker: FC<DatePickerProps> = ({
     setCalendarGrid(grid);
   }, [config]);
 
-  const hanldeClick = (date: Date) => {
+  const hanldePaginationBtnClick = (date: Date) => {
     setCalendarSettings((prev) => ({ ...prev, cuurentDate: date }));
+  };
+
+  const handleAddTodo = (newTodos: { date: string; todo: string[] }) => {
+    setCalendarSettings((prev) => ({
+      ...prev,
+      todos: [...prev.todos.filter(({ date }) => date !== newTodos.date), newTodos],
+    }));
   };
 
   if (withDateSelect) {
@@ -116,7 +124,8 @@ export const DatePicker: FC<DatePickerProps> = ({
           <CalendarComponent
             withClearBtn={!!withClearBtn}
             calendarGrid={calendarGrid}
-            changeOpenFullDate={hanldeClick}
+            addTodo={handleAddTodo}
+            changeOpenFullDate={hanldePaginationBtnClick}
           />
         </ErrorBoundary>
       </ConfigContext.Provider>

@@ -4,4 +4,5 @@ export interface CalendarGrid {
   rangeStatus: "startRange" | "inRange" | "endRange" | "";
   isHoliday: boolean;
   isWeekend: boolean;
+  todo: string[] | null;
 }

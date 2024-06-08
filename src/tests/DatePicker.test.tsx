@@ -1,6 +1,7 @@
 import { fireEvent, render } from "@testing-library/react";
+import { DatePicker } from "components";
 import { baseTheme } from "constants/baseTheme";
-import { DatePicker } from "../components/DatePicker";
+
 import { mockGetItem, mockRemoveItem, mockSetItem } from "./mocks";
 
 import "jest-styled-components";
@@ -59,7 +60,9 @@ describe("DatePicker controls", () => {
   });
 
   it("should open text-input", () => {
-    const { getByPlaceholderText, getByText, getByTestId } = render(<DatePicker />);
+    const { getByPlaceholderText, getByText, getByTestId, queryByPlaceholderText } = render(
+      <DatePicker />,
+    );
 
     const dateBtn = getByText("12");
 
@@ -71,12 +74,15 @@ describe("DatePicker controls", () => {
     const saveButton = getByTestId("save-btn");
     fireEvent.click(saveButton);
 
-    expect(textInput.value).toBe("");
-
     const date = new Date();
     date.setDate(12);
 
+    expect(queryByPlaceholderText("Add task...") as HTMLInputElement).toBeNull();
+
     expect(mockSetItem).toHaveBeenCalledTimes(1);
-    expect(mockSetItem).toHaveBeenCalledWith(date.toDateString(), '["New task"]');
+    expect(mockSetItem).toHaveBeenCalledWith(
+      "todos",
+      JSON.stringify([{ date: date.toDateString(), todo: ["New task"] }]),
+    );
   });
 });

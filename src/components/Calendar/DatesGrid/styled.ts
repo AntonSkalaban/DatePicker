@@ -16,13 +16,14 @@ export const CalendarCell = styled.button<{
   $isActive: boolean;
   $isHoliday: boolean;
   $isWeekend: boolean;
+  $withTask: boolean;
   $rangeStatus: RangeStatus;
   $holidayColor: "red" | "green" | "blue";
 }>`
   ${cellMixin}
-  border-radius: ${({ $isSelect, $rangeStatus }) => {
+  border-radius: ${({ $isSelect, $rangeStatus, $withTask }) => {
     if ($rangeStatus) return borderdRadiuses[$rangeStatus];
-    if ($isSelect) return borderdRadiuses.select;
+    if ($isSelect || $withTask) return borderdRadiuses.select;
     return "0";
   }};
 
@@ -32,6 +33,8 @@ export const CalendarCell = styled.button<{
     if ($rangeStatus === "inRange") return colors.veryLightBlue;
     return colors.white;
   }};
+
+  border: ${({ $withTask }) => ($withTask ? "1px solid red" : "")};
 
   color: ${({
     $isActive,

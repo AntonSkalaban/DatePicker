@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/comma-dangle
-export const getArrayFromLS = <T>(key: string): T[] => {
+export const getArrayFromLS = <T>(key: string): T[] | null => {
   const arr = localStorage.getItem(key);
-  return arr ? JSON.parse(arr) : [];
+  return arr ? JSON.parse(arr) : null;
 };

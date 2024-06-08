@@ -16,12 +16,12 @@ export class SelectDateDecorator {
     return SelectDateDecorator.getGridWithSelectDate(grid, this.selectDate);
   }
 
-  static getGridWithSelectDate = (calendargrid: CalendarGrid[][], selectDate: Date) =>
-    calendargrid.map((week) => {
-      return week.map((day) => {
-        return day.date.toDateString() === selectDate.toDateString()
-          ? { ...day, isSelect: true }
-          : day;
-      });
+  static getGridWithSelectDate = (calendargrid: CalendarGrid[][], selectDate: Date) => {
+    return calendargrid.map((week) => {
+      return week.map((day) => ({
+        ...day,
+        isSelect: day.date.toDateString() === selectDate.toDateString(),
+      }));
     });
+  };
 }
