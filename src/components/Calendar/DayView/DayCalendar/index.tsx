@@ -10,22 +10,16 @@ import { CalendarWrapper } from "./styled";
 
 export const DayCalendar: FC<DayCalendarProps> = ({
   calendarGrid,
-  changeOpenFullDate,
   withClearBtn,
   addTodo,
   changeView,
-  cuurentDate,
 }) => {
   return (
     <CalendarWrapper id="calendar-wrapper">
       <StyledContainer $withBtn={withClearBtn}>
-        <Title
-          cuurentDate={cuurentDate}
-          changeOpenMonth={changeOpenFullDate}
-          changeView={changeView}
-        />
+        <Title changeView={changeView} />
         <Weekdays />
-        <DatesGrid cuurentDate={cuurentDate} addTodo={addTodo} dates={calendarGrid} />
+        <DatesGrid addTodo={addTodo} dates={calendarGrid} />
       </StyledContainer>
     </CalendarWrapper>
   );

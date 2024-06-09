@@ -12,7 +12,6 @@ export const DayView: FC<DayViewProps> = ({ changeView }) => {
   const defaultConfig = useContext(ConfigContext);
 
   const [calendarSettings, setCalendarSettings] = useState<DayCalendarSettings>({
-    cuurentDate: new Date(),
     selectDate: "",
     dateRange: { startDate: "", endDate: "" },
     todos: getArrayFromLS<{ date: string; todo: string[] }>("todos") || [],
@@ -20,9 +19,11 @@ export const DayView: FC<DayViewProps> = ({ changeView }) => {
 
   const [calendarGrid, setCalendarGrid] = useState([] as CalendarGrid[][]);
 
-  const hanldePaginationBtnClick = (date: Date) => {
-    setCalendarSettings((prev) => ({ ...prev, cuurentDate: date }));
-  };
+  useEffect(() => {
+    const calendar = new CalendarServise();
+    const grid = calendar.getCalendarGrid({ ...defaultConfig, ...calendarSettings });
+    setCalendarGrid(grid);
+  }, [calendarSettings, defaultConfig]);
 
   const handleAddTodo = (newTodos: { date: string; todo: string[] }) => {
     setCalendarSettings((prev) => ({
@@ -31,12 +32,6 @@ export const DayView: FC<DayViewProps> = ({ changeView }) => {
     }));
   };
 
-  useEffect(() => {
-    const calendar = new CalendarServise();
-    const grid = calendar.getCalendarGrid({ ...defaultConfig, ...calendarSettings });
-    setCalendarGrid(grid);
-  }, [calendarSettings, defaultConfig]);
-
   let CalendarComponent = DayCalendar;
 
   if (defaultConfig.withDateSelect) {
@@ -44,8 +39,8 @@ export const DayView: FC<DayViewProps> = ({ changeView }) => {
       setCalendarSettings((prev) => ({
         ...prev,
         selectDate: dateStr,
-        cuurentDate: dateStrToFullDate(dateStr),
       }));
+      changeView("day", dateStrToFullDate(dateStr));
     };
 
     CalendarComponent = withTransitionByDate(
@@ -59,8 +54,8 @@ export const DayView: FC<DayViewProps> = ({ changeView }) => {
       setCalendarSettings((prev) => ({
         ...prev,
         dateRange: { startDate: startDateStr, endDate: endDateStr },
-        cuurentDate: dateStrToFullDate(startDateStr),
       }));
+      changeView("day", dateStrToFullDate(startDateStr));
     };
 
     CalendarComponent = withDateRangeControll(
@@ -79,8 +74,8 @@ export const DayView: FC<DayViewProps> = ({ changeView }) => {
       setCalendarSettings((prev) => ({
         ...prev,
         dateRange: { startDate: "", endDate: "" },
-        cuurentDate: new Date(),
       }));
+      changeView("day", new Date());
     };
 
     CalendarComponent = withClearButton(hanldeClick)(CalendarComponent);
@@ -88,11 +83,9 @@ export const DayView: FC<DayViewProps> = ({ changeView }) => {
 
   return (
     <CalendarComponent
-      cuurentDate={calendarSettings.cuurentDate}
       withClearBtn={!!withClearBtn}
       calendarGrid={calendarGrid}
       addTodo={handleAddTodo}
-      changeOpenFullDate={hanldePaginationBtnClick}
       changeView={changeView}
     />
   );

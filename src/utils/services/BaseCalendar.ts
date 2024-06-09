@@ -20,7 +20,7 @@ export class BaseCalendar implements Calendar {
     this.config = config;
   }
   getGrid() {
-    return BaseCalendar.createBaseGrid(this.config.cuurentDate, this.config.isWeekStartFromSun);
+    return BaseCalendar.createBaseGrid(this.config.openDate, this.config.isWeekStartFromSun);
   }
 
   static createBaseGrid = (currendDate: Date, isWeekStartFromSun: boolean): CalendarGrid[][] => {

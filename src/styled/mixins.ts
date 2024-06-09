@@ -10,3 +10,7 @@ export const cellMixin = css`
   font-size: 13px;
   line-height: 18px;
 `;
+
+export const defaultBorder = css`
+  border: 1px solid ${({ theme }) => theme.colors.lightGrey};
+`;

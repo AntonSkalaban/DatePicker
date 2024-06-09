@@ -7,8 +7,8 @@ import { TodoList } from "components";
 import { DatesGridProps } from "./types";
 import { CalendarCell } from "./styled";
 
-export const DatesGrid: FC<DatesGridProps> = ({ dates, cuurentDate, addTodo }) => {
-  const { withTodo, holidayColor } = useContext(ConfigContext);
+export const DatesGrid: FC<DatesGridProps> = ({ dates, addTodo }) => {
+  const { withTodo, holidayColor, openDate } = useContext(ConfigContext);
   const [isTodoListOpen, setIsTodoListOpen] = useState(false);
   const [todoData, setTodoData] = useState({ date: "", todo: [] as string[] });
 
@@ -32,7 +32,7 @@ export const DatesGrid: FC<DatesGridProps> = ({ dates, cuurentDate, addTodo }) =
               onClick={hanleClick(date, todo)}
               key={date.toDateString()}
               $withTask={!!todo}
-              $isActive={date.getMonth() === cuurentDate.getMonth()}
+              $isActive={date.getMonth() === openDate.getMonth()}
               $isSelect={isSelect}
               $isHoliday={isHoliday}
               $isWeekend={isWeekend}
