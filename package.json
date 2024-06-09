@@ -1,11 +1,14 @@
 {
-  "name": "date-picker",
+  "name": "AntonSkalaban/date-picker",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:AntonSkalaban/datePicker.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/AntonSkalaban/datePicker.git"
+  },
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/AntonSkalaban"
+    "AntonSkalaban:registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "start": "rollup -c --watch --bundleConfigAsCjs",
