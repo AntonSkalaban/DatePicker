@@ -9,4 +9,11 @@ export const GeneralStyles = createGlobalStyle`
         line-height: 19px;
         color: #000000;
     }
+
+    button {
+        cursor: pointer;
+        &:hover {
+            opacity: 0.5;
+        }
+    }
   `;

@@ -25,14 +25,16 @@ describe("DatePicker controls", () => {
 
     fireEvent.change(input, { target: { value: "12/12/2020" } });
 
-    const calendarTitle = getByText("December 2020");
+    const calendarMonthBtn = getByText("December");
+    const clanedarYearBrn = getByText("2020");
     const clearButton = getByTestId("clear-button");
     const selectDate = getByText("12");
 
     expect(input).toBeDefined();
     expect(selectDate).toHaveStyleRule("background", baseTheme.colors.blue);
     expect(clearButton).toBeDefined();
-    expect(calendarTitle).toBeDefined();
+    expect(calendarMonthBtn).toBeDefined();
+    expect(clanedarYearBrn).toBeDefined();
   });
 
   it("should open dates range", () => {
@@ -43,7 +45,8 @@ describe("DatePicker controls", () => {
     fireEvent.change(fromDateInput, { target: { value: "12/12/2020" } });
     fireEvent.change(toDateInput, { target: { value: "18/12/2020" } });
 
-    const calendarTitle = getByText("December 2020");
+    const calendarMonthBtn = getByText("December");
+    const clanedarYearBrn = getByText("2020");
     const clearButton = getByTestId("clear-button");
     const startRangeBtn = getByText("12");
     const inRangeBtn = getByText("13");
@@ -53,7 +56,9 @@ describe("DatePicker controls", () => {
     expect(toDateInput).toBeDefined();
     expect(clearButton).toBeDefined();
 
-    expect(calendarTitle).toBeDefined();
+    expect(calendarMonthBtn).toBeDefined();
+    expect(clanedarYearBrn).toBeDefined();
+
     expect(startRangeBtn).toHaveStyleRule("background", baseTheme.colors.lightBlue);
     expect(inRangeBtn).toHaveStyleRule("background", baseTheme.colors.veryLightBlue);
     expect(endRangeBtn).toHaveStyleRule("background", baseTheme.colors.lightBlue);

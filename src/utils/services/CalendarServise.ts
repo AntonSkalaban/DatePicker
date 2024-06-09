@@ -5,12 +5,12 @@ import {
   TodoDecorator,
   WeekendsAndHolidaysDecorator,
 } from "utils";
-import { CalendarConfig } from "types";
+import { DayCalendarConfig } from "types";
 
 import { BaseCalendar } from "./BaseCalendar";
 
 export class CalendarServise {
-  getCalendarGrid(config: CalendarConfig) {
+  getCalendarGrid(config: DayCalendarConfig) {
     let calendar = new BaseCalendar(config);
 
     if (config.showWeekendsAndHoliday) {
@@ -36,6 +36,7 @@ export class CalendarServise {
     if (config.withTodo) {
       calendar = new TodoDecorator(calendar, config.todos);
     }
+
     return calendar.getGrid();
   }
 }

@@ -2,14 +2,15 @@ import { FC, useContext } from "react";
 
 import { ConfigContext } from "context";
 import { getDDMMYYFromDate, getMonthName, getNextMonth, getPrevMonth } from "utils";
+import { ViewType } from "types/CalendarConfig";
 import NextIcon from "assets/img/svg/next.svg";
 import PrevIcon from "assets/img/svg/prev.svg";
 
 import { TitleProps } from "./types";
 import { TitleButton, TitleContainer } from "./styled";
 
-export const Title: FC<TitleProps> = ({ changeOpenMonth }) => {
-  const { maxDate, minDate, cuurentDate } = useContext(ConfigContext);
+export const Title: FC<TitleProps> = ({ cuurentDate, changeOpenMonth, changeView }) => {
+  const { maxDate, minDate } = useContext(ConfigContext);
 
   const [, mm, yy] = getDDMMYYFromDate(cuurentDate).map(Number);
   const [prevYear, prevMonth] = getPrevMonth(yy, mm);
@@ -18,23 +19,28 @@ export const Title: FC<TitleProps> = ({ changeOpenMonth }) => {
   const prevDate = new Date(prevYear, prevMonth - 1);
   const nextDate = new Date(nextYear, nextMonth - 1);
 
-  const toPrevMonth = () => {
+  const handlePrevBtnClick = () => {
     changeOpenMonth(prevDate);
   };
 
-  const toNextMonth = () => {
+  const handleNextBtnClick = () => {
     changeOpenMonth(nextDate);
+  };
+
+  const handleViewBtnClick = (view: ViewType) => () => {
+    changeView(view);
   };
 
   return (
     <TitleContainer>
-      <TitleButton onClick={toPrevMonth} disabled={minDate > prevDate}>
+      <TitleButton onClick={handlePrevBtnClick} disabled={minDate > prevDate}>
         <PrevIcon />{" "}
       </TitleButton>
       <p>
-        {getMonthName(cuurentDate)} {cuurentDate.getFullYear()}
+        <button onClick={handleViewBtnClick("month")}>{getMonthName(cuurentDate)}</button>{" "}
+        <button onClick={handleViewBtnClick("year")}>{cuurentDate.getFullYear()}</button>
       </p>
-      <TitleButton onClick={toNextMonth} disabled={maxDate < nextDate}>
+      <TitleButton onClick={handleNextBtnClick} disabled={maxDate < nextDate}>
         <NextIcon />{" "}
       </TitleButton>
     </TitleContainer>

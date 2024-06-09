@@ -1,15 +1,21 @@
 import { FC, useContext, useState } from "react";
 
 import { ConfigContext } from "context";
-import { DateInput } from "components";
-import { CalendarProps } from "components/Calendar/types";
+import { DateInput } from "components/Calendar/DayView/DayCalendar/DateInput";
+import { DayCalendarProps } from "components/Calendar/DayView/DayCalendar/types";
 import { dateRangeValidation } from "utils";
 
 export const withDateRangeControll =
-  (onChange: (startDateStr: string, endDateStr: string) => void) =>
-  (Component: FC<CalendarProps>) => {
-    return (props: CalendarProps) => {
-      const { minDate, maxDate, dateRange } = useContext(ConfigContext);
+  (
+    dateRange: {
+      startDate: string;
+      endDate: string;
+    },
+    onChange: (startDateStr: string, endDateStr: string) => void,
+  ) =>
+  (Component: FC<DayCalendarProps>) => {
+    return (props: DayCalendarProps) => {
+      const { minDate, maxDate } = useContext(ConfigContext);
 
       const [fromDate, setFromDate] = useState({ value: dateRange.startDate, errorMessage: "" });
       const [toDate, setToDate] = useState({ value: dateRange.endDate, errorMessage: "" });

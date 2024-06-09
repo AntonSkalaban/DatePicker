@@ -7,8 +7,8 @@ import { TodoList } from "components";
 import { DatesGridProps } from "./types";
 import { CalendarCell } from "./styled";
 
-export const DatesGrid: FC<DatesGridProps> = ({ dates, addTodo }) => {
-  const { cuurentDate, withTodo, holidayColor } = useContext(ConfigContext);
+export const DatesGrid: FC<DatesGridProps> = ({ dates, cuurentDate, addTodo }) => {
+  const { withTodo, holidayColor } = useContext(ConfigContext);
   const [isTodoListOpen, setIsTodoListOpen] = useState(false);
   const [todoData, setTodoData] = useState({ date: "", todo: [] as string[] });
 
