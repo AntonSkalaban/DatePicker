@@ -1,13 +1,12 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { ThemeProvider } from "styled-components";
 
 import { ConfigContext } from "context";
-import { withClearButton, withDateRangeControll, withTransitionByDate } from "hocs";
 import { GeneralStyles, NormalStyles } from "styled";
-import { Calendar, ErrorBoundary } from "components";
+import { calenadar, ErrorBoundary } from "components";
 import { baseTheme } from "constants/index";
-import { CalendarServise, dateStrToFullDate, getArrayFromLS } from "utils";
-import { CalendarConfig, CalendarGrid } from "types";
+import { dateStrToFullDate } from "utils";
+import { CalendarConfig, ViewType } from "types";
 
 import { DatePickerProps } from "./types";
 
@@ -21,16 +20,9 @@ export const DatePicker: FC<DatePickerProps> = ({
   showWeekendsAndHoliday = true,
   holidayColor = "red",
 }) => {
-  const [calendarSettings, setCalendarSettings] = useState({
-    cuurentDate: new Date(),
-    selectDate: "",
-    dateRange: { startDate: "", endDate: "" },
-    todos: getArrayFromLS<{ date: string; todo: string[] }>("todos") || [],
-  });
+  const [calendarView, setCalendarView] = useState<ViewType>("day");
 
-  const [calendarGrid, setCalendarGrid] = useState([] as CalendarGrid[][]);
-
-  const config: CalendarConfig = useMemo(() => {
+  const defaultConfig: CalendarConfig = useMemo(() => {
     return {
       minDate: dateStrToFullDate(minDate),
       maxDate: dateStrToFullDate(maxDate),
@@ -40,10 +32,9 @@ export const DatePicker: FC<DatePickerProps> = ({
       withTodo,
       showWeekendsAndHoliday,
       holidayColor,
-      ...calendarSettings,
     };
   }, [
-    calendarSettings,
+    holidayColor,
     isWeekStartFromSun,
     maxDate,
     minDate,
@@ -51,83 +42,19 @@ export const DatePicker: FC<DatePickerProps> = ({
     withDateRange,
     withDateSelect,
     withTodo,
-    holidayColor,
   ]);
 
-  let CalendarComponent = Calendar;
-
-  useEffect(() => {
-    const calendar = new CalendarServise();
-    const grid = calendar.getCalendarGrid(config);
-    setCalendarGrid(grid);
-  }, [config]);
-
-  const hanldePaginationBtnClick = (date: Date) => {
-    setCalendarSettings((prev) => ({ ...prev, cuurentDate: date }));
+  const handleViewChange = (viewType: ViewType) => {
+    setCalendarView(viewType);
   };
-
-  const handleAddTodo = (newTodos: { date: string; todo: string[] }) => {
-    setCalendarSettings((prev) => ({
-      ...prev,
-      todos: [...prev.todos.filter(({ date }) => date !== newTodos.date), newTodos],
-    }));
-  };
-
-  if (withDateSelect) {
-    const handleChange = (dateStr: string) => {
-      setCalendarSettings((prev) => ({
-        ...prev,
-        selectDate: dateStr,
-        cuurentDate: dateStrToFullDate(dateStr),
-      }));
-    };
-
-    CalendarComponent = withTransitionByDate(handleChange)(CalendarComponent);
-  }
-
-  if (withDateRange) {
-    const hanldeChange = (startDateStr: string, endDateStr: string) => {
-      setCalendarSettings((prev) => ({
-        ...prev,
-        dateRange: { startDate: startDateStr, endDate: endDateStr },
-        cuurentDate: dateStrToFullDate(startDateStr),
-      }));
-    };
-
-    CalendarComponent = withDateRangeControll(hanldeChange)(CalendarComponent);
-  }
-
-  const withClearBtn =
-    calendarSettings.dateRange.startDate ||
-    calendarSettings.dateRange.endDate ||
-    calendarSettings.selectDate;
-
-  if (withClearBtn) {
-    const hanldeClick = () => {
-      setCalendarSettings((prev) => ({
-        ...prev,
-        dateRange: { startDate: "", endDate: "" },
-        cuurentDate: new Date(),
-      }));
-    };
-
-    CalendarComponent = withClearButton(hanldeClick)(CalendarComponent);
-  }
 
   return (
     <ThemeProvider theme={baseTheme}>
       <GeneralStyles />
       <NormalStyles />
 
-      <ConfigContext.Provider value={config}>
-        <ErrorBoundary>
-          <CalendarComponent
-            withClearBtn={!!withClearBtn}
-            calendarGrid={calendarGrid}
-            addTodo={handleAddTodo}
-            changeOpenFullDate={hanldePaginationBtnClick}
-          />
-        </ErrorBoundary>
+      <ConfigContext.Provider value={defaultConfig}>
+        <ErrorBoundary>{calenadar[calendarView](handleViewChange)}</ErrorBoundary>
       </ConfigContext.Provider>
     </ThemeProvider>
   );

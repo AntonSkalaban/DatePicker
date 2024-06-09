@@ -1,10 +1,10 @@
 import { FC } from "react";
 
 import { StyledContainerButton } from "styled";
-import { CalendarProps } from "components/Calendar/types";
+import { DayCalendarProps } from "components/Calendar/DayView/DayCalendar/types";
 
-export const withClearButton = (onClick: () => void) => (Component: FC<CalendarProps>) => {
-  return (props: CalendarProps) => {
+export const withClearButton = (onClick: () => void) => (Component: FC<DayCalendarProps>) => {
+  return (props: DayCalendarProps) => {
     const hanleCkick = () => {
       onClick();
     };

@@ -1,26 +1,11 @@
-import { FC } from "react";
+import { ViewType } from "types/index";
 
-import { StyledContainer } from "styled";
+import { DayView } from "./DayView";
 
-import { DatesGrid } from "./DatesGrid";
-import { Title } from "./Title";
-import { CalendarProps } from "./types";
-import { Weekdays } from "./Weekdays";
-import { CalendarWrapper } from "./styled";
-
-export const Calendar: FC<CalendarProps> = ({
-  calendarGrid,
-  changeOpenFullDate,
-  withClearBtn,
-  addTodo,
-}) => {
-  return (
-    <CalendarWrapper id="calendar-wrapper">
-      <StyledContainer $withBtn={withClearBtn}>
-        <Title changeOpenMonth={changeOpenFullDate} />
-        <Weekdays />
-        <DatesGrid addTodo={addTodo} dates={calendarGrid} />
-      </StyledContainer>
-    </CalendarWrapper>
-  );
+export const calenadar: {
+  [key in ViewType]: (changeView: (viewType: ViewType) => void) => JSX.Element;
+} = {
+  day: (changeView: (viewType: ViewType) => void) => <DayView changeView={changeView} />,
+  month: (changeView: (viewType: ViewType) => void) => <DayView changeView={changeView} />,
+  year: (changeView: (viewType: ViewType) => void) => <DayView changeView={changeView} />,
 };
