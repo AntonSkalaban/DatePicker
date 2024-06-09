@@ -18,3 +18,7 @@ export const getDatesRange = (startDate: Date, endDate: Date) => {
 
   return datesArray;
 };
+
+export const getNumbersInRange = (start: number, end: number) => {
+  return Array.from({ length: end - start }).map((_, i) => start + i);
+};

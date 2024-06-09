@@ -1,6 +1,5 @@
 export type ViewType = "day" | "month" | "year";
 export interface DayCalendarSettings {
-  cuurentDate: Date;
   selectDate: string;
   dateRange: {
     startDate: string;
@@ -9,6 +8,7 @@ export interface DayCalendarSettings {
   todos: { date: string; todo: string[] }[];
 }
 export interface CalendarConfig {
+  openDate: Date;
   minDate: Date;
   maxDate: Date;
   isWeekStartFromSun: boolean;

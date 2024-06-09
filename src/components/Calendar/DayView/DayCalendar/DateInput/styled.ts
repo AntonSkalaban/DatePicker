@@ -11,8 +11,8 @@ export const DateInputContainer = styled.div`
 
   padding: 0px 39px;
 
-  background: #ffffff;
-  border: 1px solid #dddddd;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.lightGrey};
   border-radius: 8px;
 
   margin-bottom: 10px;

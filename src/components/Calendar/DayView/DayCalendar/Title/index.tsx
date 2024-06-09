@@ -9,10 +9,10 @@ import PrevIcon from "assets/img/svg/prev.svg";
 import { TitleProps } from "./types";
 import { TitleButton, TitleContainer } from "./styled";
 
-export const Title: FC<TitleProps> = ({ cuurentDate, changeOpenMonth, changeView }) => {
-  const { maxDate, minDate } = useContext(ConfigContext);
+export const Title: FC<TitleProps> = ({ changeView }) => {
+  const { maxDate, minDate, openDate } = useContext(ConfigContext);
 
-  const [, mm, yy] = getDDMMYYFromDate(cuurentDate).map(Number);
+  const [, mm, yy] = getDDMMYYFromDate(openDate).map(Number);
   const [prevYear, prevMonth] = getPrevMonth(yy, mm);
   const [nextYear, nextMonth] = getNextMonth(yy, mm);
 
@@ -20,11 +20,11 @@ export const Title: FC<TitleProps> = ({ cuurentDate, changeOpenMonth, changeView
   const nextDate = new Date(nextYear, nextMonth - 1);
 
   const handlePrevBtnClick = () => {
-    changeOpenMonth(prevDate);
+    changeView("day", prevDate);
   };
 
   const handleNextBtnClick = () => {
-    changeOpenMonth(nextDate);
+    changeView("day", nextDate);
   };
 
   const handleViewBtnClick = (view: ViewType) => () => {
@@ -37,8 +37,8 @@ export const Title: FC<TitleProps> = ({ cuurentDate, changeOpenMonth, changeView
         <PrevIcon />{" "}
       </TitleButton>
       <p>
-        <button onClick={handleViewBtnClick("month")}>{getMonthName(cuurentDate)}</button>{" "}
-        <button onClick={handleViewBtnClick("year")}>{cuurentDate.getFullYear()}</button>
+        <button onClick={handleViewBtnClick("month")}>{getMonthName(openDate)}</button>{" "}
+        <button onClick={handleViewBtnClick("year")}>{openDate.getFullYear()}</button>
       </p>
       <TitleButton onClick={handleNextBtnClick} disabled={maxDate < nextDate}>
         <NextIcon />{" "}

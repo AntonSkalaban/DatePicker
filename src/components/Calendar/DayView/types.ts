@@ -1,5 +1,5 @@
 import { ViewType } from "types/index";
 
 export interface DayViewProps {
-  changeView: (viewType: ViewType) => void;
+  changeView: (viewType: ViewType, openDate?: Date) => void;
 }

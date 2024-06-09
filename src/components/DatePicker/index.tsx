@@ -12,7 +12,7 @@ import { DatePickerProps } from "./types";
 
 export const DatePicker: FC<DatePickerProps> = ({
   minDate = "01/01/2020",
-  maxDate = "01/01/2025",
+  maxDate = "01/01/2100",
   isWeekStartFromSun = false,
   withDateSelect = true,
   withDateRange = true,
@@ -21,9 +21,11 @@ export const DatePicker: FC<DatePickerProps> = ({
   holidayColor = "red",
 }) => {
   const [calendarView, setCalendarView] = useState<ViewType>("day");
+  const [openDate, setOpenDate] = useState(new Date());
 
   const defaultConfig: CalendarConfig = useMemo(() => {
     return {
+      openDate,
       minDate: dateStrToFullDate(minDate),
       maxDate: dateStrToFullDate(maxDate),
       isWeekStartFromSun,
@@ -38,14 +40,16 @@ export const DatePicker: FC<DatePickerProps> = ({
     isWeekStartFromSun,
     maxDate,
     minDate,
+    openDate,
     showWeekendsAndHoliday,
     withDateRange,
     withDateSelect,
     withTodo,
   ]);
 
-  const handleViewChange = (viewType: ViewType) => {
+  const handleViewChange = (viewType: ViewType, openDate?: Date) => {
     setCalendarView(viewType);
+    if (openDate) setOpenDate(openDate);
   };
 
   return (
