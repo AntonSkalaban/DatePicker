@@ -1,9 +1,6 @@
 name: publish on github
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
   publish-gpr:
